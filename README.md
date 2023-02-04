@@ -7,8 +7,8 @@ Replace any sample values inside `< >` in these files:
 - [docker/test-docker.sh](docker/test-docker.sh)
 - [pom.xml](pom.xml): `<groupId>` `<artifactId>` and `<name>`
 - [src/main/resources/logback-container.xml](src/main/resources/logback-container.xml) `<logger name="no.liflig" level="DEBUG"/>`
-- [src/main/kotlin/no/liflig/baseline/support/config/Config.kt](src/main/kotlin/no/liflig/baseline/support/config/Config.kt)
-- [src/main/kotlin/no/liflig/baseline/support/observability/OpenTelemetryConfig.kt](src/main/kotlin/no/liflig/baseline/support/observability/OpenTelemetryConfig.kt)
+- [src/main/kotlin/no/liflig/baseline/support/config/Config.kt](src/main/kotlin/no/liflig/ks2kurs/common/config/Config.kt)
+- [src/main/kotlin/no/liflig/baseline/support/observability/OpenTelemetryConfig.kt](src/main/kotlin/no/liflig/ks2kurs/common/observability/OpenTelemetryConfig.kt)
 - [src/main/resources-filtered/application.properties](src/main/resources-filtered/application.properties) `service.name`
 
 You might have success with this script: https://gist.github.com/stekern/23e4804c0801520b50c0c3e5b3822138
@@ -94,7 +94,7 @@ You need to install:
       ```shell
       docker-compose -f docker-compose.yml up -d --build
       ```
-   - Or run `no.liflig.baseline.Main.main()` 
+   - Or run `no.liflig.ks2kurs.Main.main()` 
    - Or `cd docker && ./test-docker.sh`
 
 You can test the API with [src/test/http/health.http](src/test/http/health.http)
