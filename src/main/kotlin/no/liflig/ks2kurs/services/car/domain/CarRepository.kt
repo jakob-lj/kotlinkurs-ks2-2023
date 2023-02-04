@@ -7,6 +7,9 @@ import no.liflig.ks2kurs.common.domain.Repository
 typealias CarRepository = Repository<CarId, Car>
 
 class CarRepositoryImpl(override val crudDao: CrudDao<CarId, Car>) : Repository<CarId, Car> {
+  companion object {
+    const val SQL_TABLE_NAME = "cars"
+  }
   override suspend fun create(item: Car): VersionedEntity<Car> {
     TODO("Not yet implemented")
   }
