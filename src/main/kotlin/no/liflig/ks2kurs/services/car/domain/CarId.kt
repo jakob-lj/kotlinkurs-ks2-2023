@@ -1,4 +1,4 @@
-package no.liflig.ks2kurs.car.domain
+package no.liflig.ks2kurs.services.car.domain
 
 import no.liflig.documentstore.entity.EntityId
 import no.liflig.ks2kurs.common.serialization.UuidEntityIdSerializer

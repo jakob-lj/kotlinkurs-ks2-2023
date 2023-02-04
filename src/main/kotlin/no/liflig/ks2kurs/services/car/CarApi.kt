@@ -1,7 +1,7 @@
-package no.liflig.ks2kurs.car
+package no.liflig.ks2kurs.services.car
 
-import no.liflig.ks2kurs.car.routes.CreateCarRoute
-import no.liflig.ks2kurs.car.routes.ListCarsRoute
+import no.liflig.ks2kurs.bff.car.routes.CreateCarRoute
+import no.liflig.ks2kurs.bff.car.routes.ListCarsRoute
 import no.liflig.ks2kurs.common.http4k.Api
 import org.http4k.contract.meta
 import org.http4k.core.Method

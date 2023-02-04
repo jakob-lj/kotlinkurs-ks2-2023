@@ -1,4 +1,4 @@
-package no.liflig.ks2kurs.car.dtos
+package no.liflig.ks2kurs.services.car.dtos
 
 import no.liflig.ks2kurs.common.http4k.lenses.createBodyLens
 

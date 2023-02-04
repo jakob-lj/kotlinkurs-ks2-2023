@@ -1,8 +1,8 @@
-package no.liflig.ks2kurs.car.routes
+package no.liflig.ks2kurs.bff.car.routes
 
-import no.liflig.ks2kurs.car.domain.Car
-import no.liflig.ks2kurs.car.dtos.CarsDto
-import no.liflig.ks2kurs.car.dtos.toDto
+import no.liflig.ks2kurs.services.car.domain.Car
+import no.liflig.ks2kurs.services.car.dtos.CarsDto
+import no.liflig.ks2kurs.services.car.dtos.toDto
 import no.liflig.ks2kurs.common.http4k.Route
 import org.http4k.contract.RouteMetaDsl
 import org.http4k.core.HttpHandler
