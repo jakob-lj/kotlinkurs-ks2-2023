@@ -29,7 +29,7 @@ class CarRepositoryJdbi(override val crudDao: CrudDao<CarId, Car>, override val 
     crudDao.delete(item.id, previousVersion)
   }
 
-  override suspend fun update(item: VersionedEntity<Car>): VersionedEntity<Car> {
+  override suspend fun update(item: Car, previousVersion: Version): VersionedEntity<Car> {
     TODO("Not yet implemented")
   }
 }

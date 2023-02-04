@@ -17,7 +17,7 @@ interface Repository<IT : EntityId, T : EntityRoot<IT>, Q> {
 
   suspend fun getAll(): List<VersionedEntity<T>>
 
-  suspend fun update(item: VersionedEntity<T>): VersionedEntity<T>
+  suspend fun update(item: T, previousVersion: Version): VersionedEntity<T>
 
   suspend fun delete(item: Car, previousVersion: Version)
 }
