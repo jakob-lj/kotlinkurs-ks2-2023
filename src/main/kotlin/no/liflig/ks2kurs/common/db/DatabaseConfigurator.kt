@@ -48,7 +48,7 @@ object DatabaseConfigurator {
   private fun migrate(dataSource: DataSource, cleanDatabase: Boolean) {
     val flyway = Flyway.configure()
       .dataSource(dataSource)
-      .locations("database/migration")
+      .locations("database/migrations")
       .load()
 
     if (cleanDatabase) {
