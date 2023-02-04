@@ -1,5 +1,7 @@
 package no.liflig.ks2kurs.services.car
 
+import no.liflig.ks2kurs.common.error.CarError
+import no.liflig.ks2kurs.common.error.CarErrorCode
 import no.liflig.ks2kurs.services.car.domain.Car
 import no.liflig.ks2kurs.services.car.domain.CarId
 import no.liflig.ks2kurs.services.car.domain.CarRepository
@@ -25,15 +27,12 @@ class CarService(
   }
 
   suspend fun edit(request: CreateOrEditCarRequest, carId: CarId): Car {
-    val car = carRepository.get(carId)!!.item // TODO throw CarNotFound if not exists
+    val car = carRepository.get(carId) ?: throw CarError(CarErrorCode.CarNotFound)
 
-    // TODO use update pattern to update existing car
-
-    car.regNr = request.regNr
-
-    // TODO update in persistence
-
-    return car
+    return carRepository.update(
+      car.item.updateRegNr(regNr = request.regNr),
+      previousVersion = car.version,
+    ).item
   }
 
   suspend fun addDriver(person: Person, carId: CarId): Car {
