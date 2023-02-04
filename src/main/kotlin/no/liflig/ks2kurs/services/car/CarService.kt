@@ -1,7 +1,7 @@
 package no.liflig.ks2kurs.services.car
 
-import no.liflig.ks2kurs.common.error.CarError
-import no.liflig.ks2kurs.common.error.CarErrorCode
+import no.liflig.ks2kurs.common.http4k.errors.CarError
+import no.liflig.ks2kurs.common.http4k.errors.CarErrorCode
 import no.liflig.ks2kurs.services.car.domain.Car
 import no.liflig.ks2kurs.services.car.domain.CarId
 import no.liflig.ks2kurs.services.car.domain.CarRepository
