@@ -1,7 +1,7 @@
 package no.liflig.ks2kurs.common.serialization
 
 import kotlinx.serialization.json.Json
-import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.time.Instant
 
@@ -16,6 +16,6 @@ internal class InstantSerializerTest {
     val actual = Json.encodeToString(InstantSerializer, instant)
 
     // Then
-    assertThat(actual).isEqualTo("\"2022-06-23T11:58:47.958123Z\"")
+    Assertions.assertEquals(actual, "\"2022-06-23T11:58:47.958123Z\"")
   }
 }
