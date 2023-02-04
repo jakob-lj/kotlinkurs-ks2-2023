@@ -3,11 +3,14 @@ package no.liflig.ks2kurs.common.domain
 import no.liflig.documentstore.dao.CrudDao
 import no.liflig.documentstore.entity.EntityId
 import no.liflig.documentstore.entity.EntityRoot
+import no.liflig.documentstore.entity.Version
 import no.liflig.documentstore.entity.VersionedEntity
+import no.liflig.ks2kurs.services.car.domain.Car
 
-interface Repository<IT : EntityId, T : EntityRoot<IT>> {
+interface Repository<IT : EntityId, T : EntityRoot<IT>, Q> {
 
   val crudDao: CrudDao<IT, T>
+  val searchRepo: AbstractKursSearchRepository<IT, T, Q>
   suspend fun create(item: T): VersionedEntity<T>
 
   suspend fun get(id: IT): VersionedEntity<T>?
@@ -16,5 +19,5 @@ interface Repository<IT : EntityId, T : EntityRoot<IT>> {
 
   suspend fun update(item: VersionedEntity<T>): VersionedEntity<T>
 
-  suspend fun delete(item: T)
+  suspend fun delete(item: Car, previousVersion: Version)
 }

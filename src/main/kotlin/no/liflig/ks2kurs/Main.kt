@@ -14,7 +14,8 @@ import no.liflig.ks2kurs.common.http4k.ServiceRouter
 import no.liflig.ks2kurs.common.http4k.UserPrincipal
 import no.liflig.ks2kurs.common.http4k.UserPrincipalLog
 import no.liflig.ks2kurs.common.http4k.toLog
-import no.liflig.ks2kurs.services.car.domain.CarRepositoryImpl
+import no.liflig.ks2kurs.services.car.domain.CarRepositoryJdbi
+import no.liflig.ks2kurs.services.car.domain.CarSearchRepositoryJdbi
 import no.liflig.ks2kurs.services.car.domain.carSerializerAdapter
 import no.liflig.logging.RequestResponseLog
 import no.liflig.logging.http4k.LoggingFilter
@@ -53,8 +54,9 @@ fun main(args: Array<String>) {
   val userPrincipalLens = RequestContextKey.optional<UserPrincipal?>(contexts)
 
   val serviceRegistry = ServiceRegistry(
-    carRepository = CarRepositoryImpl(
-      crudDao = CrudDaoJdbi(jdbi, CarRepositoryImpl.SQL_TABLE_NAME, carSerializerAdapter),
+    carRepository = CarRepositoryJdbi(
+      crudDao = CrudDaoJdbi(jdbi, CarRepositoryJdbi.SQL_TABLE_NAME, carSerializerAdapter),
+      searchRepo = CarSearchRepositoryJdbi(jdbi),
     ),
   )
 
