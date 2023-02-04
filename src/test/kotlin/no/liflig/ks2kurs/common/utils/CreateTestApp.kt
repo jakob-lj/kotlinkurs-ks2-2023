@@ -6,6 +6,7 @@ import no.liflig.ks2kurs.common.health.HealthBuildInfo
 import no.liflig.ks2kurs.common.health.HealthService
 import no.liflig.ks2kurs.common.http4k.UserPrincipal
 import no.liflig.ks2kurs.createApp
+import no.liflig.ks2kurs.services.car.CarService
 import no.liflig.ks2kurs.services.car.domain.CarRepositoryJdbi
 import no.liflig.ks2kurs.services.car.domain.CarSearchRepositoryJdbi
 import no.liflig.ks2kurs.services.car.domain.carSerializerAdapter
@@ -24,8 +25,13 @@ fun createTestApp(): RoutingHttpHandler {
     searchRepo = CarSearchRepositoryJdbi(jdbi),
   )
 
+  val carService = CarService(
+    carRepository = carRepository,
+  )
+
   val serviceRegistry = ServiceRegistry(
     carRepository = carRepository,
+    carService = carService,
   )
 
   return createApp(
