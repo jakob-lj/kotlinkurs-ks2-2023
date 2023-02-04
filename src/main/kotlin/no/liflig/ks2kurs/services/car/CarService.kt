@@ -17,13 +17,17 @@ class CarService(
   }
 
   suspend fun create(request: CreateOrEditCarRequest): Car {
-    // TODO check if car already exists -- if: throw CarAlreadyExists
+    val existingCar = carRepository.getAll().find { it.item.regNr == request.regNr }
 
-    // TODO persist car
+    if (existingCar != null) {
+      throw CarError(CarErrorCode.CarAlreadyExists)
+    }
 
-    return Car.create(
-      regNr = request.regNr,
-    )
+    return carRepository.create(
+      Car.create(
+        regNr = request.regNr,
+      ),
+    ).item
   }
 
   suspend fun edit(request: CreateOrEditCarRequest, carId: CarId): Car {
