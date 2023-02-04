@@ -1,7 +1,6 @@
 package no.liflig.ks2kurs.common.http4k.errors
 
 import mu.KLogging
-import no.liflig.ks2kurs.common.http4k.AuthApiError
 import no.liflig.ks2kurs.common.http4k.AuthApiErrorCode
 import no.liflig.ks2kurs.common.http4k.lenses.createBodyLens
 import org.http4k.core.Filter
@@ -36,18 +35,24 @@ object CatchExceptionsFilter : KLogging() {
 }
 
 fun handleApiError(error: ApiError): Response {
-  if (error is AuthApiError) {
-    return when (error.code) {
+  return when (error) {
+    is ApiError -> when (error.code) {
       AuthApiErrorCode.USER_PRINCIPAL_NOT_FOUND -> error.code.toResponse(Status.NOT_FOUND)
       AuthApiErrorCode.NOT_AUTHENTICATED -> error.code.toResponse(Status.UNAUTHORIZED)
       AuthApiErrorCode.USER_ALREADY_EXISTS -> error.code.toResponse(Status.BAD_REQUEST)
       AuthApiErrorCode.FORBIDDEN -> error.code.toResponse(Status.FORBIDDEN)
+      else -> throw IllegalStateException("")
     }
-  } else if (error is BoardApiError) {
-    return when (error.code) {
-      BoardApiErrorCode.COULD_NOT_FIND_BOARD -> error.code.toResponse(Status.NOT_FOUND)
+
+    is CarError -> when (error.code) {
+      CarErrorCode.CarNotFound,
+      CarErrorCode.CarAlreadyExists,
+      CarErrorCode.InvalidRegistrationNumber,
+      -> error.code.toResponse(Status.BAD_REQUEST)
     }
-  } else throw IllegalStateException("Could not convert ApiError Response.")
+
+    else -> throw IllegalStateException("Could not convert ApiError Response.")
+  }
 }
 
 fun ApiErrorCode.toResponse(status: Status) =

@@ -9,9 +9,3 @@ abstract class ApiError() : RuntimeException() {
 }
 
 interface ApiErrorCode
-
-class BoardApiError(override val code: BoardApiErrorCode, override val throwable: Throwable? = null) : ApiError()
-
-enum class BoardApiErrorCode : ApiErrorCode {
-  COULD_NOT_FIND_BOARD
-}
