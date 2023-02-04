@@ -1,6 +1,7 @@
 package no.liflig.ks2kurs.common.http4k.errors
 
 import mu.KLogging
+import no.liflig.ks2kurs.common.http4k.AuthApiError
 import no.liflig.ks2kurs.common.http4k.AuthApiErrorCode
 import no.liflig.ks2kurs.common.http4k.lenses.createBodyLens
 import org.http4k.core.Filter
@@ -36,12 +37,11 @@ object CatchExceptionsFilter : KLogging() {
 
 fun handleApiError(error: ApiError): Response {
   return when (error) {
-    is ApiError -> when (error.code) {
+    is AuthApiError -> when (error.code) {
       AuthApiErrorCode.USER_PRINCIPAL_NOT_FOUND -> error.code.toResponse(Status.NOT_FOUND)
       AuthApiErrorCode.NOT_AUTHENTICATED -> error.code.toResponse(Status.UNAUTHORIZED)
       AuthApiErrorCode.USER_ALREADY_EXISTS -> error.code.toResponse(Status.BAD_REQUEST)
       AuthApiErrorCode.FORBIDDEN -> error.code.toResponse(Status.FORBIDDEN)
-      else -> throw IllegalStateException("")
     }
 
     is CarError -> when (error.code) {
