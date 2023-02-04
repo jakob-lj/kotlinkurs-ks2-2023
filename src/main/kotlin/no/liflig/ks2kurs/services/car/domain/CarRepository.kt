@@ -26,5 +26,4 @@ class CarRepositoryImpl(override val crudDao: CrudDao<CarId, Car>) : Repository<
   override suspend fun update(item: VersionedEntity<Car>): VersionedEntity<Car> {
     TODO("Not yet implemented")
   }
-
 }

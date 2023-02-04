@@ -1,7 +1,6 @@
 package no.liflig.ks2kurs.common.domain
 
 import no.liflig.documentstore.dao.CrudDao
-import no.liflig.documentstore.entity.Entity
 import no.liflig.documentstore.entity.EntityId
 import no.liflig.documentstore.entity.EntityRoot
 import no.liflig.documentstore.entity.VersionedEntity

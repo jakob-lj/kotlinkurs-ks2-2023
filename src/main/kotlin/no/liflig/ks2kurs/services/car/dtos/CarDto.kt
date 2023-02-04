@@ -1,7 +1,7 @@
 package no.liflig.ks2kurs.services.car.dtos
 
-import no.liflig.ks2kurs.services.car.domain.Car
 import no.liflig.ks2kurs.common.http4k.lenses.createBodyLens
+import no.liflig.ks2kurs.services.car.domain.Car
 
 @kotlinx.serialization.Serializable
 data class CarDto(

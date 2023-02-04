@@ -47,4 +47,3 @@ abstract class UuidEntityIdSerializer<T : EntityId>(
   override fun deserialize(decoder: Decoder): T =
     factory(UUID.fromString(decoder.decodeString()))
 }
-

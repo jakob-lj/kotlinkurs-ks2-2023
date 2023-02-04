@@ -9,7 +9,6 @@ import org.http4k.lens.RequestContextKey
 import org.http4k.routing.RoutingHttpHandler
 import java.time.Instant
 
-
 fun createTestApp(): RoutingHttpHandler {
   val contexts = RequestContexts()
   return createApp(

@@ -1,9 +1,9 @@
 package no.liflig.ks2kurs.bff.car.routes
 
+import no.liflig.ks2kurs.common.http4k.Route
 import no.liflig.ks2kurs.services.car.domain.Car
 import no.liflig.ks2kurs.services.car.dtos.CarsDto
 import no.liflig.ks2kurs.services.car.dtos.toDto
-import no.liflig.ks2kurs.common.http4k.Route
 import org.http4k.contract.RouteMetaDsl
 import org.http4k.core.HttpHandler
 import org.http4k.core.Response
@@ -17,10 +17,8 @@ class ListCarsRoute : Route {
   }
 
   override fun handler(): HttpHandler = {
-
     val cars = emptyList<Car>()
 
     Response(Status.OK).with(CarsDto.bodyLens of CarsDto(cars.map { it.toDto() }))
   }
-
 }
