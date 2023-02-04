@@ -1,7 +1,9 @@
 package no.liflig.ks2kurs.services.car
 
 import no.liflig.ks2kurs.services.car.domain.Car
+import no.liflig.ks2kurs.services.car.domain.CarId
 import no.liflig.ks2kurs.services.car.domain.CarRepository
+import no.liflig.ks2kurs.services.car.dtos.CreateOrEditCarRequest
 
 class CarService(
   private val carRepository: CarRepository,
@@ -10,23 +12,25 @@ class CarService(
     return carRepository.getAll().map { it.item }
   }
 
-  suspend fun create(car: Car): Car {
+  suspend fun create(request: CreateOrEditCarRequest): Car {
     // TODO check if car already exists -- if: throw CarAlreadyExists
 
     // TODO persist car
 
-    return car
+    return Car.create(
+      regNr = request.regNr,
+    )
   }
 
-  suspend fun edit(newCar: Car): Car {
-    val existingCar = carRepository.get(newCar.id)!!.item // TODO throw CarNotFound if not exists
+  suspend fun edit(request: CreateOrEditCarRequest, carId: CarId): Car {
+    val car = carRepository.get(carId)!!.item // TODO throw CarNotFound if not exists
 
     // TODO use update pattern to update existing car
 
-    existingCar.regNr = newCar.regNr
+    car.regNr = request.regNr
 
     // TODO update in persistence
 
-    return existingCar
+    return car
   }
 }
