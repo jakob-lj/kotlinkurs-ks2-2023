@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.json.JsonMapper
 import com.fasterxml.jackson.module.kotlin.KotlinFeature
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import no.liflig.ks2kurs.common.config.Config
+import no.liflig.ks2kurs.common.domain.ServiceRegistry
 import no.liflig.ks2kurs.services.car.CarApi
 import no.liflig.logging.http4k.ErrorResponseRendererWithLogging
 import org.http4k.contract.ContractRoute
@@ -25,7 +26,10 @@ import org.http4k.format.withStandardMappings
 import org.http4k.routing.RoutingHttpHandler
 import org.http4k.routing.bind
 
-fun api(errorResponseRenderer: ErrorResponseRendererWithLogging): RoutingHttpHandler {
+fun api(
+  errorResponseRenderer: ErrorResponseRendererWithLogging,
+  serviceRegistry: ServiceRegistry,
+): RoutingHttpHandler {
   return "api" bind contract {
     val jacksonJson = JacksonJson
     renderer = OpenApi3(
@@ -44,7 +48,7 @@ fun api(errorResponseRenderer: ErrorResponseRendererWithLogging): RoutingHttpHan
     )
     descriptionPath = "/api-docs"
 
-    routes += CarApi(prefix = "car").routes
+    routes += CarApi(prefix = "car", serviceRegistry).routes
   }
 }
 

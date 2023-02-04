@@ -96,5 +96,5 @@ fun createApp(
   healthService = healthService,
 )
   .routingHandler {
-    routes += api(errorResponseRenderer)
+    routes += api(errorResponseRenderer, serviceRegistry)
   }

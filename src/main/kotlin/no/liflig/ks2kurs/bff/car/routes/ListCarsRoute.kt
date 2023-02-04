@@ -17,7 +17,8 @@ class ListCarsRoute(override val sr: ServiceRegistry) : Route {
     returning(Status.OK, CarsDto.bodyLens to CarsDto.example)
   }
 
-  override fun handler(): HttpHandler = {
+  override fun handler(vararg params: String): HttpHandler = { req ->
+
     val cars = runBlocking { sr.carService.getAllCars() }
 
     Response(Status.OK).with(CarsDto.bodyLens of CarsDto(cars.map { it.toDto() }))

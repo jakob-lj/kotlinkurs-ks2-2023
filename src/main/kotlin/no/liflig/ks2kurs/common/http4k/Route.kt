@@ -10,5 +10,5 @@ interface Route {
 
   fun meta(): RouteMetaDsl.() -> Unit
 
-  fun handler(): HttpHandler
+  fun handler(vararg params: String): HttpHandler
 }
