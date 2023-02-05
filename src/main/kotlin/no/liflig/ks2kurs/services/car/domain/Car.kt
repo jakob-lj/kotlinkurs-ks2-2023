@@ -71,6 +71,19 @@ data class Car private constructor(
     regNr = regNr,
   )
 
+  fun updateCapacity(capacity: Int): Car {
+    if (capacity < passengers.size + drivers.size) {
+      throw CarError(CarErrorCode.CarCapacityTooLowRemoveDriversAndPassengers)
+    }
+    return update(
+      passengerCapacity = capacity,
+    )
+  }
+
+  fun updateCarType(carType: CarType) = update(
+    carType = carType,
+  )
+
   private fun update(
     regNr: String = this.regNr,
     passengerCapacity: Int = this.passengerCapacity,

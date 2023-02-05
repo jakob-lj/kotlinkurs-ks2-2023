@@ -37,10 +37,11 @@ class CarService(
   suspend fun edit(request: CreateOrEditCarRequest, carId: CarId): Car {
     val car = carRepository.get(carId) ?: throw CarError(CarErrorCode.CarNotFound)
 
-    return carRepository.update(
-      car.item.updateRegNr(regNr = request.regNr),
-      previousVersion = car.version,
-    ).item
+    val updatedWithCorrectRegNr = car.item.updateRegNr(request.regNr)
+    val updatedWithCorrectCapacity = updatedWithCorrectRegNr.updateCapacity(request.passengerCapacity)
+    val updatedWithCorrectCarType = updatedWithCorrectCapacity.updateCarType(request.carType)
+
+    return carRepository.update(updatedWithCorrectCarType, car.version).item
   }
 
   suspend fun addDriver(person: Person, carId: CarId): Car {
