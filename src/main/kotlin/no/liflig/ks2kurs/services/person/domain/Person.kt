@@ -5,34 +5,58 @@ package no.liflig.ks2kurs.services.person.domain
 import kotlinx.serialization.UseSerializers
 import no.liflig.documentstore.entity.AbstractEntityRoot
 import no.liflig.ks2kurs.common.serialization.LocalDateSerializer
+import java.time.LocalDate
 
 @kotlinx.serialization.Serializable
 data class Person(
   override val id: PersonId,
-  // TODO extract name to firstname, lastname
-  val name: String,
-
-  // TODO add birthday
+  val firstName: String,
+  val lastName: String,
+  val birthDay: LocalDate,
+  val hasLicense: Boolean,
 ) : AbstractEntityRoot<PersonId>() {
 
-  // TODO getter for full name
+  val fullName: String
+    get() = "$firstName $lastName"
 
-  fun edit(name: String = this.name): Person = update(
-    name = name,
+  fun edit(
+    firstName: String = this.firstName,
+    lastName: String = this.lastName,
+    hasLicense: Boolean = this.hasLicense,
+    birthDay: LocalDate = this.birthDay,
+  ): Person = update(
+    firstName = firstName,
+    lastName = lastName,
+    hasLicense = hasLicense,
+    birthDay = birthDay,
   )
 
-  private fun update(name: String = this.name): Person = Person(
+  private fun update(
+    firstName: String = this.firstName,
+    lastName: String = this.lastName,
+    birthDay: LocalDate = this.birthDay,
+    hasLicense: Boolean = this.hasLicense,
+  ): Person = Person(
     id = id,
-    name = name,
+    firstName = firstName,
+    lastName = lastName,
+    birthDay = birthDay,
+    hasLicense = hasLicense,
   )
 
   companion object {
     fun create(
       id: PersonId = PersonId(),
-      name: String,
+      firstName: String,
+      lastName: String,
+      birthDay: LocalDate,
+      hasLicense: Boolean,
     ): Person = Person(
       id = id,
-      name = name,
+      firstName = firstName,
+      lastName = lastName,
+      birthDay = birthDay,
+      hasLicense,
     )
   }
 }

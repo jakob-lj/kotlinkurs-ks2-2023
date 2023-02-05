@@ -1,5 +1,7 @@
 package no.liflig.ks2kurs.services.car
 
+import no.liflig.ks2kurs.common.http4k.errors.CarError
+import no.liflig.ks2kurs.common.http4k.errors.CarErrorCode
 import no.liflig.ks2kurs.services.car.domain.Car
 import no.liflig.ks2kurs.services.car.domain.CarId
 import no.liflig.ks2kurs.services.car.domain.CarRepository
@@ -15,73 +17,89 @@ class CarService(
   }
 
   suspend fun create(request: CreateOrEditCarRequest): Car {
-    // TODO check if car already exists -- if: throw CarAlreadyExists
+    val existingCar = carRepository.getAll().find { it.item.regNr == request.regNr }
 
-    // TODO persist car
+    if (existingCar != null) {
+      throw CarError(CarErrorCode.CarAlreadyExists)
+    }
 
-    return Car.create(
-      regNr = request.regNr,
-    )
+    return carRepository.create(
+      Car.create(
+        regNr = request.regNr,
+        passengerCapacity = request.passengerCapacity,
+        drivers = emptyList(),
+        passengers = emptyList(),
+        carType = request.carType,
+      ),
+    ).item
   }
 
   suspend fun edit(request: CreateOrEditCarRequest, carId: CarId): Car {
-    val car = carRepository.get(carId)!!.item // TODO throw CarNotFound if not exists
+    val existingCars = carRepository.getAll().filter { it.item.regNr == request.regNr }
 
-    // TODO use update pattern to update existing car
+    if (existingCars.size > 1 || existingCars.size == 1 && existingCars[0].item.id != carId) {
+      throw CarError(CarErrorCode.CarAlreadyExists)
+    }
 
-    car.regNr = request.regNr
+    val car = carRepository.get(carId) ?: throw CarError(CarErrorCode.CarNotFound)
 
-    // TODO update in persistence
+    val updatedWithCorrectRegNr = car.item.updateRegNr(request.regNr)
+    val updatedWithCorrectCapacity = updatedWithCorrectRegNr.updateCapacity(request.passengerCapacity)
+    val updatedWithCorrectCarType = updatedWithCorrectCapacity.updateCarType(request.carType)
 
-    return car
+    return carRepository.update(updatedWithCorrectCarType, car.version).item
   }
 
   suspend fun addDriver(person: Person, carId: CarId): Car {
-    // TODO implement method
-    return Car.create(
-      id = carId,
-      regNr = "DR94054",
-    )
+    val car = carRepository.get(carId) ?: throw CarError(CarErrorCode.CarNotFound)
+
+    if (!person.hasLicense) {
+      throw CarError(CarErrorCode.PersonDoesNotHaveValidCertificate)
+    }
+
+    if (car.item.availableSeats < 1) {
+      throw CarError(CarErrorCode.NoAvailableSeats)
+    }
+
+    return carRepository.update(
+      car.item.addDriver(person.id),
+      car.version,
+    ).item
   }
 
   suspend fun addPassenger(person: Person, carId: CarId): Car {
-    // TODO implement method
-    return Car.create(
-      id = carId,
-      regNr = "DR94054",
-    )
+    val car = carRepository.get(carId) ?: throw CarError(CarErrorCode.CarNotFound)
+
+    return carRepository.update(
+      car.item.addPassenger(person.id),
+      car.version,
+    ).item
   }
 
   suspend fun removePassenger(personId: PersonId, carId: CarId): Car {
     // we already know that person exists
-    // TODO Check that car exists
 
-    // TODO implement
-    return Car.create(
-      id = CarId(),
-      regNr = "",
-    )
+    val existingCar = carRepository.get(carId) ?: throw CarError(CarErrorCode.CarNotFound)
+
+    return carRepository.update(existingCar.item.removePassenger(personId), existingCar.version).item
   }
 
   suspend fun removeDriver(personId: PersonId, carId: CarId): Car {
     // we already know person exists
-    // TODO check that car exists
+    val existingCar = carRepository.get(carId) ?: throw CarError(CarErrorCode.CarNotFound)
 
-    // TODO implement
-
-    return Car.create(
-      id = CarId(),
-      regNr = "",
-    )
+    return carRepository.update(existingCar.item.removeDriver(personId), existingCar.version).item
   }
 
   suspend fun getCarsWithPerson(personId: PersonId): List<Car> {
-    // TODO Implement
-
-    return emptyList()
+    return getAllCars().filter {
+      it.drivers.contains(personId) || it.passengers.contains(personId)
+    }
   }
 
   suspend fun removeFromCar(personId: PersonId, carId: CarId) {
-    // TODO Implement
+    val car = carRepository.get(carId) ?: throw CarError(CarErrorCode.CarNotFound)
+
+    carRepository.update(car.item.removePassenger(personId).removeDriver(personId), car.version)
   }
 }
