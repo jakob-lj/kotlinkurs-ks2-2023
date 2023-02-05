@@ -67,25 +67,17 @@ class CarService(
 
   suspend fun removePassenger(personId: PersonId, carId: CarId): Car {
     // we already know that person exists
-    // TODO Check that car exists
 
-    // TODO implement
-    return Car.create(
-      id = CarId(),
-      regNr = "",
-    )
+    val existingCar = carRepository.get(carId) ?: throw CarError(CarErrorCode.CarNotFound)
+
+    return carRepository.update(existingCar.item.removePassenger(personId), existingCar.version).item
   }
 
   suspend fun removeDriver(personId: PersonId, carId: CarId): Car {
     // we already know person exists
-    // TODO check that car exists
+    val existingCar = carRepository.get(carId) ?: throw CarError(CarErrorCode.CarNotFound)
 
-    // TODO implement
-
-    return Car.create(
-      id = CarId(),
-      regNr = "",
-    )
+    return carRepository.update(existingCar.item.removeDriver(personId), existingCar.version).item
   }
 
   suspend fun getCarsWithPerson(personId: PersonId): List<Car> {
