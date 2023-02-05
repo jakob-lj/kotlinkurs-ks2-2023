@@ -37,6 +37,7 @@ implementert dette.
 # Oppgaver!
 
 # Step 1: Utvid Car og fiks immutability issuet (Car.kt)
+
 - [ ] Done
 
 Fiks imutability issuet med Car slik at regNr ikke kan endres på et Car-object
@@ -50,6 +51,7 @@ Utvide Car-klassen til å ha:
 - [ ] lag en getter for å finne antall ledige plasser igjen i bilen
 
 # Step 2 (Car Service):
+
 - [ ] Done
 
 Utvid Car service til å oppfylle forretningskravene:
@@ -62,12 +64,16 @@ Utvid Car service til å oppfylle forretningskravene:
 ## 2.2 Edit
 
 - [ ] Fjern !! etter man har gettet-en car og håndter feilen så bruker får rett feilmelding
+- [ ] Sjekk at det ikke er mulig å endre regnummer til (en annen) bil som ikke finnes allerede
 - [ ] persister endringer på en car
 
 Vi kommer tilbake til resten av metodene i Car service etter vi har implementert ferdig Person-konseptet siden Car er
 dependent på Person for å legge til disse funksjonene.
 
+Det skal nå være mulig å kjøre [CarTest](src/test/kotlin/no/liflig/ks2kurs/bff/CarTest.kt).
+
 # Step 3: Utvide Person klassen (Person.kt)
+
 - [ ] Done
 
 - [ ] Utvide Person til å ha firstname og lastname i stedet for kun name. (Vi skal ikke endre api-et så
@@ -77,6 +83,7 @@ dependent på Person for å legge til disse funksjonene.
 - [ ] Utvide Person til å ha birthDay (LocalDate)
 
 # Step 4: Implementert en service for Person (PersonService.kt)
+
 - [ ] Done
 
 Vi trenger å implementere en service for å håndtere det å opprette og gjøre endringer på personer
@@ -106,6 +113,7 @@ Merk!! I en "vanlig" applikasjon vil man la basen gjøre mest mulig av denne fil
 skal få jobbe med kotlin.
 
 # Step 5: Vi utvider Car aggregatet til å kunne legge til sjåfører (Car.kt)
+
 - [ ] Done
 
 En ting er sikkert: vi trenger å gjøre endringer på Car-objekter. Merk: Her jobber vi kun med Person-id-er. Å validere
@@ -130,6 +138,7 @@ Implementert derfor funksjoner i Car som følger følgende forretningsbehov med 
 - [ ] Passasjeren kan ikke være driver fra før
 
 # Step 6: Vi trenger å gjøre ferdig funksjoner i car servicen vår (CarService.kt)
+
 - [ ] Done
 
 ## Step 6.1 addDriver
