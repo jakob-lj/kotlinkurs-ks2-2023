@@ -8,6 +8,7 @@ data class Car private constructor(
   override val id: CarId,
   // TODO immutability
   var regNr: String,
+  // TODO more attributes on car
 ) : AbstractEntityRoot<CarId>() {
 
   fun updateRegNr(regNr: String) = update(
