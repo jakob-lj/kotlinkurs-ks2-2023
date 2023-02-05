@@ -43,8 +43,8 @@ class PersonService(
     return allPersons
       .map { it.item }
       .filter {
-        filter.hasLicense == null || it.hasLicense &&
-          filter.birthYear == null || it.birthDay.year == filter.birthYear?.value
+        (filter.hasLicense == null || it.hasLicense) &&
+          (filter.birthYear == null || it.birthDay.year == filter.birthYear.value)
       }
   }
 }
