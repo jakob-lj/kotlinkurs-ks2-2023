@@ -13,5 +13,7 @@ enum class CarErrorCode : ApiErrorCode {
   NoAvailableSeats,
   PersonIsPassenger,
   PersonIsDriver,
+  PersonIsNotDriver,
+  PersonIsNotPassenger,
   Custom,
 }

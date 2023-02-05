@@ -67,6 +67,8 @@ fun handleApiError(error: ApiError): Response {
       CarErrorCode.NoAvailableSeats,
       CarErrorCode.PersonIsDriver,
       CarErrorCode.PersonIsPassenger,
+      CarErrorCode.PersonIsNotDriver,
+      CarErrorCode.PersonIsNotPassenger,
       -> error.code.toResponse(Status.BAD_REQUEST)
 
       CarErrorCode.Custom -> Response(Status.BAD_REQUEST).with(
