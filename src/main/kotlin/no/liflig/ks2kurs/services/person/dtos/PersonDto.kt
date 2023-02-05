@@ -1,6 +1,10 @@
+@file:UseSerializers(LocalDateSerializer::class)
+
 package no.liflig.ks2kurs.services.person.dtos
 
+import kotlinx.serialization.UseSerializers
 import no.liflig.ks2kurs.common.http4k.lenses.createBodyLens
+import no.liflig.ks2kurs.common.serialization.LocalDateSerializer
 import no.liflig.ks2kurs.services.person.domain.Person
 import no.liflig.ks2kurs.services.person.domain.PersonId
 
