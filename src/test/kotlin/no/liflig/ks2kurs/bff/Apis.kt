@@ -23,6 +23,14 @@ fun createCar(
     .with(CreateOrEditCarRequest.bodyLens of createRequest),
 )
 
+fun editCar(
+  httpHandler: RoutingHttpHandler,
+  carId: CarId,
+  editRequest: CreateOrEditCarRequest,
+) = httpHandler(
+  Request(Method.PUT, "/api/car/$carId").with(CreateOrEditCarRequest.bodyLens of editRequest),
+)
+
 fun listCars(
   httpHandler: RoutingHttpHandler,
 ): CarsDto {
