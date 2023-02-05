@@ -7,7 +7,7 @@ import no.liflig.documentstore.entity.AbstractEntityRoot
 import no.liflig.ks2kurs.common.serialization.LocalDateSerializer
 
 @kotlinx.serialization.Serializable
-class Person(
+data class Person(
   override val id: PersonId,
   // TODO extract name to firstname, lastname
   val name: String,
