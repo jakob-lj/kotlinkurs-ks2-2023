@@ -6,6 +6,8 @@ import no.liflig.ks2kurs.common.domain.ServiceRegistry
 import no.liflig.ks2kurs.common.http4k.Route
 import no.liflig.ks2kurs.common.http4k.errors.CarError
 import no.liflig.ks2kurs.common.http4k.errors.CarErrorCode
+import no.liflig.ks2kurs.common.http4k.errors.PersonError
+import no.liflig.ks2kurs.common.http4k.errors.PersonErrorCode
 import no.liflig.ks2kurs.services.car.domain.CarId
 import no.liflig.ks2kurs.services.car.dtos.CarDto
 import no.liflig.ks2kurs.services.car.dtos.toDto
@@ -30,7 +32,9 @@ class AddPassengerRoute(override val sr: ServiceRegistry) : Route {
     runBlocking {
       val car = sr.carRepository.get(carId) ?: throw CarError(CarErrorCode.CarNotFound)
 
-      val updatedCar = sr.carService.addPassenger(request.personId, car.item.id)
+      val person = sr.personRepository.get(request.personId) ?: throw PersonError(PersonErrorCode.PersonNotFound)
+
+      val updatedCar = sr.carService.addPassenger(person.item, car.item.id)
 
       Response(Status.OK).with(CarDto.bodyLens of updatedCar.toDto())
     }

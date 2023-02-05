@@ -4,6 +4,7 @@ import no.liflig.ks2kurs.services.car.domain.Car
 import no.liflig.ks2kurs.services.car.domain.CarId
 import no.liflig.ks2kurs.services.car.domain.CarRepository
 import no.liflig.ks2kurs.services.car.dtos.CreateOrEditCarRequest
+import no.liflig.ks2kurs.services.person.domain.Person
 import no.liflig.ks2kurs.services.person.domain.PersonId
 
 class CarService(
@@ -35,7 +36,7 @@ class CarService(
     return car
   }
 
-  suspend fun addDriver(personId: PersonId, carId: CarId): Car {
+  suspend fun addDriver(person: Person, carId: CarId): Car {
     // TODO implement method
     return Car.create(
       id = carId,
@@ -43,7 +44,7 @@ class CarService(
     )
   }
 
-  suspend fun addPassenger(personId: PersonId, carId: CarId): Car {
+  suspend fun addPassenger(person: Person, carId: CarId): Car {
     // TODO implement method
     return Car.create(
       id = carId,

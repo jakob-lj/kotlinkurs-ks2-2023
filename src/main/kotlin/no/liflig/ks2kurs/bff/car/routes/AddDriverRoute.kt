@@ -35,7 +35,7 @@ class AddDriverRoute(override val sr: ServiceRegistry) : Route {
 
       val person = sr.personRepository.get(request.personId) ?: throw PersonError(PersonErrorCode.PersonNotFound)
 
-      val updatedCar = sr.carService.addDriver(person.item.id, car.item.id)
+      val updatedCar = sr.carService.addDriver(person.item, car.item.id)
 
       Response(Status.OK).with(CarDto.bodyLens of updatedCar.toDto())
     }
