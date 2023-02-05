@@ -1,5 +1,6 @@
 package no.liflig.ks2kurs.bff.car
 
+import no.liflig.ks2kurs.bff.car.routes.AddDriverRoute
 import no.liflig.ks2kurs.bff.car.routes.CreateCarRoute
 import no.liflig.ks2kurs.bff.car.routes.EditCarRoute
 import no.liflig.ks2kurs.bff.car.routes.ListCarsRoute
@@ -15,6 +16,7 @@ class CarApi(override val prefix: String, override val serviceRegistry: ServiceR
   private val listCarsRoute = ListCarsRoute(serviceRegistry)
   private val createCar = CreateCarRoute(serviceRegistry)
   private val editCar = EditCarRoute(serviceRegistry)
+  private val addDriver = AddDriverRoute(serviceRegistry)
 
   override val routes = listOf(
     prefix meta listCarsRoute.meta()
@@ -25,5 +27,8 @@ class CarApi(override val prefix: String, override val serviceRegistry: ServiceR
 
     prefix / Path.of("carId") meta editCar.meta()
       bindContract Method.PUT to { carId -> editCar.handler(carId) },
+
+    prefix / Path.of("carId") / "driver" meta addDriver.meta()
+      bindContract Method.POST to { carId, _ -> addDriver.handler(carId) },
   )
 }

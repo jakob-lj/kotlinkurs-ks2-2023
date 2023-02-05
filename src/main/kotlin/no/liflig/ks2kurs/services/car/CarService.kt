@@ -35,6 +35,14 @@ class CarService(
     return car
   }
 
+  suspend fun addDriver(personId: PersonId, carId: CarId): Car {
+    // TODO implement method
+    return Car.create(
+      id = carId,
+      regNr = "DR94054",
+    )
+  }
+
   suspend fun getCarsWithPerson(personId: PersonId): List<Car> {
     // TODO Implement
 
