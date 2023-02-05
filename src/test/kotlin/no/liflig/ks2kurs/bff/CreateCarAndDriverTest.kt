@@ -180,4 +180,57 @@ class CreateCarAndDriverTest {
 
     Assertions.assertEquals(0, updatedCarAfterRemovalOfDriverAndPassenger.passengers.size)
   }
+
+  @Test
+  fun `Car Capacity cannot be overwritten`() {
+    val httpHandler = createTestApp()
+
+    val car = createCar(
+      httpHandler = httpHandler,
+      createRequest = CreateOrEditCarRequest(
+        regNr = "DR94054",
+        passengerCapacity = 1,
+        carType = CarType.Person,
+      ),
+    ).useSerializer(CarDto.serializer())
+
+    val driver = createPerson(
+      httpHandler = httpHandler,
+      createRequest = CreateOrEditPersonRequest(
+        birthDay = LocalDate.parse("1980-01-01"),
+        hasLicense = true,
+        name = "Frank Franksen",
+      ),
+    ).useSerializer(PersonDto.serializer())
+
+    val successfullDriverResponse = addDriver(
+      httpHandler = httpHandler,
+      carId = car.id,
+      personId = driver.id,
+    )
+
+    Assertions.assertEquals(Status.OK, successfullDriverResponse.status)
+
+    val secondDriver = createPerson(
+      httpHandler = httpHandler,
+      createRequest = CreateOrEditPersonRequest(
+        birthDay = LocalDate.parse("1980-01-01"),
+        hasLicense = true,
+        name = "Endre Franksen",
+      ),
+    ).useSerializer(PersonDto.serializer())
+
+    val failedDriverResponse = addDriver(
+      httpHandler = httpHandler,
+      carId = car.id,
+      personId = secondDriver.id,
+    )
+
+    Assertions.assertEquals(Status.BAD_REQUEST, failedDriverResponse.status)
+
+    Assertions.assertEquals(
+      CarErrorCode.NoAvailableSeats,
+      failedDriverResponse.useSerializer(CarErrorTestDto.serializer()).code,
+    )
+  }
 }
