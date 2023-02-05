@@ -34,9 +34,9 @@ kjøre [CreateCarAndDriverTest](src/test/kotlin/no/liflig/ks2kurs/bff/CreateCarA
 Er du helt blank? Sjekk ut branchen [solution](/jakob-lj/koltinkurs-ks2-2023/tree/solution) for å se hvordan vi har
 implementert dette.
 
-## Oppgaver!
+# Oppgaver!
 
-### Step 1: Utvid Car og fiks immutability issuet (Car.kt)
+## Step 1: Utvid Car og fiks immutability issuet (Car.kt)
 
 Fiks imutability issuet med Car slik at regNr ikke kan endres på et Car-object
 
@@ -48,16 +48,16 @@ Utvide Car-klassen til å ha:
 - biltype (CarType)
 - lag en getter for å finne antall ledige plasser igjen i bilen
 
-### Step 2 (Car Service):
+## Step 2 (Car Service):
 
 Utvid Car service til å oppfylle forretningskravene:
 
-#### 2.1 Crate car
+### 2.1 Crate car
 
 - Sjekk at bilen du ønsker å registrere ikke finnes fra før
 - Persister bilen med Car Repository
 
-#### 2.2 Edit
+### 2.2 Edit
 
 - Fjern !! etter man har gettet-en car og håndter feilen så bruker får rett feilmelding
 - persister endringer på en car
@@ -65,7 +65,7 @@ Utvid Car service til å oppfylle forretningskravene:
 Vi kommer tilbake til resten av metodene i Car service etter vi har implementert ferdig Person-konseptet siden Car er
 dependent på Person for å legge til disse funksjonene.
 
-### Step 3: Utvide Person klassen (Person.kt)
+## Step 3: Utvide Person klassen (Person.kt)
 
 - Utvide Person til å ha firstname og lastname i stedet for kun name. (Vi skal ikke endre api-et så
   CreateOrEditPersonRequest skal fremdeles sende inn bare name. Dette skal vi håndtere i Person service i step 4) La
@@ -73,23 +73,23 @@ dependent på Person for å legge til disse funksjonene.
 - Lag en getter for full name
 - Utvide Person til å ha birthDay (LocalDate)
 
-### Step 4: Implementert en service for Person (PersonService.kt)
+## Step 4: Implementert en service for Person (PersonService.kt)
 
 Vi trenger å implementere en service for å håndtere det å opprette og gjøre endringer på personer
 
-#### Step 4.1: Create person
+### Step 4.1: Create person
 
 - Skriv en extention function som henter fornavn (alle navn som ikke er sist) fra en String
 - Skriv en extention function som henter etternavn (siste navn) fra en String
 - Brukt extension functions over for å persistere fornavn og etternavn riktig
 - Persister personen til databasen
 
-#### Step 4.2: Edit person
+### Step 4.2: Edit person
 
 - Sjekk om personen finnes og throw PersonError med riktig PersonErrorCode hvis ikke
 - Persister endringene i databasen med personRepository
 
-#### Step 4.3 getByFilter
+### Step 4.3 getByFilter
 
 For å ikke liste aller persons, har vi laget en "getByFilter"-metode som sender inn et PersonServiceListFilter-object
 man kan bruke til å filtrere.
@@ -101,7 +101,7 @@ man kan bruke til å filtrere.
 Merk!! I en "vanlig" applikasjon vil man la basen gjøre mest mulig av denne filtreringen, vi unngår dette her så dere
 skal få jobbe med kotlin.
 
-### Step 5: Vi utvider Car aggregatet til å kunne legge til sjåfører (Car.kt)
+## Step 5: Vi utvider Car aggregatet til å kunne legge til sjåfører (Car.kt)
 
 En ting er sikkert: vi trenger å gjøre endringer på Car-objekter. Merk: Her jobber vi kun med Person-id-er. Å validere
 om en person har rettigheter til å bli lagt til som sjåfør (har gyldig førerkort) er en service layer constraint og skal
@@ -110,23 +110,23 @@ For å gjøre disse endringene så lett som mulig ønsker vi at entiteten "Car" 
 endringer på entiteten selv når vi ønsker å gjøre disse.
 Implementert derfor funksjoner i Car som følger følgende forretningsbehov med tilhørende regler:
 
-#### Step 5.1: Legge til sjåfører
+### Step 5.1: Legge til sjåfører
 
 - Lag en metode for å legge til en referanse til en driver (PersonId) i listen over drivers
 - Det må være et ledig sete i bilen
 - Driveren kan ikke være passenger fra før
 - Driveren kan ikke være driver fra før
 
-#### Step 5.2: Legge til passasjerer
+### Step 5.2: Legge til passasjerer
 
 - Lag en metode for å legge til en referanse til en passasjer (PersonId) i listen i listen over passasjerer
 - Det må være et ledig sete i bilen
 - Passasjeren kan ikke være passenger fra før
 - Passasjeren kan ikke være driver fra før
 
-### Step 6: Vi trenger å gjøre ferdig funksjoner i car servicen vår (CarService.kt)
+## Step 6: Vi trenger å gjøre ferdig funksjoner i car servicen vår (CarService.kt)
 
-#### Step 6.1 addDriver
+### Step 6.1 addDriver
 
 Utvid metoden til å følge følgende forretningsbehov
 
@@ -135,7 +135,7 @@ Utvid metoden til å følge følgende forretningsbehov
 - Person må ha gyldig sertifikat
 - Person må ha fylt mist 23 år
 
-#### Step 6.2 addPassenger
+### Step 6.2 addPassenger
 
 Utvid metoden til å følge følgende forretningsbehov
 
@@ -143,17 +143,17 @@ Utvid metoden til å følge følgende forretningsbehov
 - Person må finnes
 - Gjør endringer på Car-objectet og persister disse
 
-#### Step 6.3 remove passenger
+### Step 6.3 remove passenger
 
 Implementer metode for å fjerne passasjer fra Car og deretter oppdatere persisteringen av Car-objectet
 
-#### Step 6.4 remove driver
+### Step 6.4 remove driver
 
 Implementer metoden for å fjerne driver fra Car og deretter oppdater persisteringen av Car-objectet
 
-### Getting started
+## Getting started
 
-#### Tool dependencies
+### Tool dependencies
 
 You need to install:
 
