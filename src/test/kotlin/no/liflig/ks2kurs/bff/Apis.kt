@@ -1,8 +1,11 @@
 package no.liflig.ks2kurs.bff
 
+import no.liflig.ks2kurs.bff.car.routes.dtos.AddDriverOrPassengerRequest
 import no.liflig.ks2kurs.common.utils.useSerializer
+import no.liflig.ks2kurs.services.car.domain.CarId
 import no.liflig.ks2kurs.services.car.dtos.CarsDto
 import no.liflig.ks2kurs.services.car.dtos.CreateOrEditCarRequest
+import no.liflig.ks2kurs.services.person.domain.PersonId
 import no.liflig.ks2kurs.services.person.dtos.CreateOrEditPersonRequest
 import no.liflig.ks2kurs.services.person.dtos.PersonsDto
 import org.http4k.core.Method
@@ -51,3 +54,55 @@ fun listPersons(
 
   return response.useSerializer(PersonsDto.serializer())
 }
+
+fun addDriver(
+  httpHandler: RoutingHttpHandler,
+  carId: CarId,
+  personId: PersonId,
+) = httpHandler(
+  Request(
+    Method.POST,
+    "/api/car/$carId/driver",
+  ).with(
+    AddDriverOrPassengerRequest.bodyLens of AddDriverOrPassengerRequest(
+      personId = personId,
+    ),
+  ),
+)
+
+fun removeDriver(
+  httpHandler: RoutingHttpHandler,
+  carId: CarId,
+  personId: PersonId,
+) = httpHandler(
+  Request(
+    Method.DELETE,
+    "/api/car/$carId/driver/$personId",
+  ),
+)
+
+fun addPassenger(
+  httpHandler: RoutingHttpHandler,
+  carId: CarId,
+  personId: PersonId,
+) = httpHandler(
+  Request(
+    Method.POST,
+    "/api/car/$carId/passenger",
+  ).with(
+    AddDriverOrPassengerRequest.bodyLens of AddDriverOrPassengerRequest(
+      personId = personId,
+    ),
+  ),
+)
+
+fun removePassenger(
+  httpHandler: RoutingHttpHandler,
+  carId: CarId,
+  personId: PersonId,
+) = httpHandler(
+  Request(
+    Method.DELETE,
+    "/api/car/$carId/passenger/$personId",
+  ),
+)

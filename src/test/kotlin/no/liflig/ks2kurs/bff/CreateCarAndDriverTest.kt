@@ -1,5 +1,6 @@
 package no.liflig.ks2kurs.bff
 
+import no.liflig.ks2kurs.common.http4k.errors.CarErrorCode
 import no.liflig.ks2kurs.common.utils.createTestApp
 import no.liflig.ks2kurs.common.utils.useSerializer
 import no.liflig.ks2kurs.services.car.domain.CarType
@@ -13,9 +14,12 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.time.LocalDate
 
+@kotlinx.serialization.Serializable
+class CarErrorTestDto(val code: CarErrorCode)
+
 class CreateCarAndDriverTest {
 
-  fun createBasics(httpHandler: RoutingHttpHandler): Pair<CarDto, PersonDto> {
+  fun createBasics(httpHandler: RoutingHttpHandler): Triple<CarDto, PersonDto, PersonDto> {
     val firstCar = createCar(
       httpHandler = httpHandler,
       createRequest = CreateOrEditCarRequest(
@@ -27,19 +31,29 @@ class CreateCarAndDriverTest {
 
     Assertions.assertEquals(Status.OK, firstCar.status)
 
-    val driver = createPerson(
+    val passenger = createPerson(
       httpHandler = httpHandler,
       createRequest = CreateOrEditPersonRequest(
         birthDay = LocalDate.parse("2000-01-01"),
         hasLicense = false,
-        name = "Ola Normann",
+        name = "Ola Passasjer",
       ),
     )
 
-    Assertions.assertEquals(Status.OK, driver.status)
+    val driver = createPerson(
+      httpHandler = httpHandler,
+      createRequest = CreateOrEditPersonRequest(
+        birthDay = LocalDate.parse("1999-01-01"),
+        hasLicense = true,
+        name = "Ola Sjåfør",
+      ),
+    )
 
-    return Pair(
+    Assertions.assertEquals(Status.OK, passenger.status)
+
+    return Triple(
       firstCar.useSerializer(CarDto.serializer()),
+      passenger.useSerializer(PersonDto.serializer()),
       driver.useSerializer(PersonDto.serializer()),
     )
   }
@@ -51,15 +65,119 @@ class CreateCarAndDriverTest {
     Assertions.assertEquals(0, listCars(httpHandler = httpHandler).items.size)
     Assertions.assertEquals(0, listPersons(httpHandler = httpHandler).items.size)
 
-    val (car, driver) = createBasics(httpHandler = httpHandler)
+    val (car, passenger, driver) = createBasics(httpHandler = httpHandler)
 
-    Assertions.assertEquals(4, car.passengerCapacity)
+    Assertions.assertEquals(5, car.passengerCapacity)
 
     val updatedListOfCars = listCars(httpHandler = httpHandler)
 
     Assertions.assertEquals(1, updatedListOfCars.items.size)
-    Assertions.assertEquals(1, listPersons(httpHandler = httpHandler).items.size)
+    Assertions.assertEquals(2, listPersons(httpHandler = httpHandler).items.size)
 
     Assertions.assertEquals(0, updatedListOfCars.items[0].passengers.size)
+
+    val addDriverResponse = addDriver(
+      httpHandler = httpHandler,
+      carId = car.id,
+      personId = driver.id,
+    )
+
+    Assertions.assertEquals(Status.OK, addDriverResponse.status)
+
+    val failedAddDriverResponseDueToMissingLicense = addDriver(
+      httpHandler = httpHandler,
+      carId = car.id,
+      personId = passenger.id,
+    )
+
+    Assertions.assertEquals(Status.BAD_REQUEST, failedAddDriverResponseDueToMissingLicense.status)
+    Assertions.assertEquals(
+      CarErrorCode.PersonDoesNotHaveValidCertificate,
+      failedAddDriverResponseDueToMissingLicense.useSerializer(CarErrorTestDto.serializer()).code,
+    )
+
+    val failedAddDriverResponseDueToDuplicate = addDriver(
+      httpHandler = httpHandler,
+      carId = car.id,
+      personId = driver.id,
+    )
+
+    Assertions.assertEquals(Status.BAD_REQUEST, failedAddDriverResponseDueToDuplicate.status)
+    Assertions.assertEquals(
+      CarErrorCode.PersonIsDriver,
+      failedAddDriverResponseDueToDuplicate.useSerializer(CarErrorTestDto.serializer()).code,
+    )
+
+    val addedPassengerResponse = addPassenger(
+      httpHandler = httpHandler,
+      carId = car.id,
+      personId = passenger.id,
+    )
+
+    Assertions.assertEquals(Status.OK, addedPassengerResponse.status)
+
+    val failedAddedSecondPassengerAsPersonIsDriver = addPassenger(
+      httpHandler = httpHandler,
+      carId = car.id,
+      personId = driver.id,
+    )
+
+    Assertions.assertEquals(Status.BAD_REQUEST, failedAddedSecondPassengerAsPersonIsDriver.status)
+    Assertions.assertEquals(
+      CarErrorCode.PersonIsDriver,
+      failedAddedSecondPassengerAsPersonIsDriver.useSerializer(CarErrorTestDto.serializer()).code,
+    )
+
+    val updatedCar = listCars(
+      httpHandler = httpHandler,
+    )
+
+    Assertions.assertEquals(2, updatedCar.items[0].passengers.size)
+
+    val failedRemoveDriverRequestAsPassengerWasPassedAsDriverResponse = removeDriver(
+      httpHandler = httpHandler,
+      carId = car.id,
+      personId = passenger.id,
+    )
+
+    Assertions.assertEquals(Status.BAD_REQUEST, failedRemoveDriverRequestAsPassengerWasPassedAsDriverResponse.status)
+    Assertions.assertEquals(
+      CarErrorCode.PersonIsNotDriver,
+      failedRemoveDriverRequestAsPassengerWasPassedAsDriverResponse.useSerializer(CarErrorTestDto.serializer()).code,
+    )
+
+    val failedRemovePassengerAsDriverWasPassedAsPassengerResponse = removePassenger(
+      httpHandler = httpHandler,
+      carId = car.id,
+      personId = driver.id,
+    )
+
+    Assertions.assertEquals(Status.BAD_REQUEST, failedRemovePassengerAsDriverWasPassedAsPassengerResponse.status)
+    Assertions.assertEquals(
+      CarErrorCode.PersonIsNotPassenger,
+      failedRemovePassengerAsDriverWasPassedAsPassengerResponse.useSerializer(CarErrorTestDto.serializer()).code,
+    )
+
+    val removeDriverResponse = removeDriver(
+      httpHandler = httpHandler,
+      carId = car.id,
+      personId = driver.id,
+    )
+
+    Assertions.assertEquals(Status.OK, removeDriverResponse.status)
+
+    val removePassengerResponse = removePassenger(
+      httpHandler = httpHandler,
+      carId = car.id,
+      personId = passenger.id,
+    )
+
+    Assertions.assertEquals(Status.OK, removePassengerResponse.status)
+
+    val updatedCarAfterRemovalOfDriverAndPassenger = listCars(
+      httpHandler = httpHandler,
+    ).items[0]
+
+    Assertions.assertEquals(0, updatedCarAfterRemovalOfDriverAndPassenger.passengers.size)
   }
 }
