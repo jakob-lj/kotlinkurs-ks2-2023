@@ -41,7 +41,7 @@ class CarService(
     return emptyList()
   }
 
-  suspend fun removeFromCar(personId: PersonId, car: Car) {
+  suspend fun removeFromCar(personId: PersonId, carId: CarId) {
     // TODO Implement
   }
 }
