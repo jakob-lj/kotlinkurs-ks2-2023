@@ -11,15 +11,29 @@ import org.http4k.core.HttpHandler
 import org.http4k.core.Response
 import org.http4k.core.Status
 import org.http4k.core.with
+import org.http4k.lens.Query
+import org.http4k.lens.boolean
+import org.http4k.lens.int
+import java.time.Year
+
+val licenseQuery = Query.boolean().optional("hasLicense")
+val birthYearQuery = Query.int().optional("birthYear")
 
 class ListPersonRoute(override val sr: ServiceRegistry) : Route {
   override fun meta(): RouteMetaDsl.() -> Unit = {
     summary = "list all persons"
+    queries += licenseQuery
+    queries += birthYearQuery
     returning(Status.OK, PersonsDto.bodyLens to PersonsDto.example)
   }
 
   override fun handler(vararg params: String): HttpHandler = { req ->
-    val filter = PersonServiceListFilter(birthYear = null, hasLicense = null)
+
+    val birthYear = birthYearQuery(req)
+    val hasLicense = licenseQuery(req)
+
+    val filter =
+      PersonServiceListFilter(birthYear = birthYear?.let { Year.parse(birthYear.toString()) }, hasLicense = hasLicense)
 
     val persons = runBlocking { sr.personService.getByFilter(filter) }
 
