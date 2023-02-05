@@ -20,6 +20,7 @@ class PersonService(
         firstName = request.name.firstName(),
         lastName = request.name.lastName(),
         birthDay = request.birthDay,
+        hasLicense = request.hasLicense,
       ),
     ).item
   }
@@ -37,11 +38,14 @@ class PersonService(
   }
 
   suspend fun getByFilter(filter: PersonServiceListFilter): List<Person> {
-    // TODO get all person!
+    val allPersons = personRepository.getAll()
 
-    // TODO use filters to filter request
-
-    return listOf()
+    return allPersons
+      .map { it.item }
+      .filter {
+        filter.hasLicense == null || it.hasLicense &&
+          filter.birthYear == null || it.birthDay.year == filter.birthYear?.value
+      }
   }
 }
 

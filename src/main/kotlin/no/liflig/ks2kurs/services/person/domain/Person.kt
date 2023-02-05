@@ -13,6 +13,7 @@ data class Person(
   val firstName: String,
   val lastName: String,
   val birthDay: LocalDate,
+  val hasLicense: Boolean,
 ) : AbstractEntityRoot<PersonId>() {
 
   val fullName: String
@@ -21,20 +22,24 @@ data class Person(
   fun edit(
     firstName: String = this.firstName,
     lastName: String = this.lastName,
+    hasLicense: Boolean = this.hasLicense,
   ): Person = update(
     firstName = firstName,
     lastName = lastName,
+    hasLicense = hasLicense,
   )
 
   private fun update(
     firstName: String = this.firstName,
     lastName: String = this.lastName,
     birthDay: LocalDate = this.birthDay,
+    hasLicense: Boolean = this.hasLicense,
   ): Person = Person(
     id = id,
     firstName = firstName,
     lastName = lastName,
     birthDay = birthDay,
+    hasLicense = hasLicense,
   )
 
   companion object {
@@ -43,11 +48,13 @@ data class Person(
       firstName: String,
       lastName: String,
       birthDay: LocalDate,
+      hasLicense: Boolean,
     ): Person = Person(
       id = id,
       firstName = firstName,
       lastName = lastName,
       birthDay = birthDay,
+      hasLicense,
     )
   }
 }

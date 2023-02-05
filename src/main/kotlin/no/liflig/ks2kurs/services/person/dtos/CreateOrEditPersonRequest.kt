@@ -11,12 +11,14 @@ import java.time.LocalDate
 data class CreateOrEditPersonRequest(
   val name: String,
   val birthDay: LocalDate,
+  val hasLicense: Boolean,
 ) {
   companion object {
     val bodyLens by lazy { createBodyLens(serializer()) }
     val example = CreateOrEditPersonRequest(
       name = "Ola Normann",
       birthDay = LocalDate.parse("2000-01-01"),
+      hasLicense = true,
     )
   }
 }
