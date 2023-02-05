@@ -14,6 +14,7 @@ data class PersonDto(
   val id: PersonId,
   val name: String,
   val birthDay: LocalDate,
+  val hasLicense: Boolean,
 ) {
   companion object {
     val bodyLens by lazy { createBodyLens(serializer()) }
@@ -21,6 +22,7 @@ data class PersonDto(
       id = PersonId("5831c867-75ab-4b36-9bb1-dfd34b4e58c5"),
       name = "Some name",
       birthDay = LocalDate.parse("1970-02-01"),
+      hasLicense = true,
     )
   }
 }
@@ -29,4 +31,5 @@ fun Person.toDto(): PersonDto = PersonDto(
   id = id,
   name = fullName,
   birthDay = birthDay,
+  hasLicense = hasLicense,
 )
