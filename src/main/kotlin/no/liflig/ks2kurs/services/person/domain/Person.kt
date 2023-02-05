@@ -17,6 +17,10 @@ class Person(
 
   // TODO getter for full name
 
+  private fun edit(name: String = this.name): Person = update(
+    name = name,
+  )
+
   private fun update(name: String = this.name): Person = Person(
     id = id,
     name = name,
