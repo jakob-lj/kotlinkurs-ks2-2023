@@ -5,6 +5,7 @@ import no.liflig.ks2kurs.common.domain.ServiceRegistry
 import no.liflig.ks2kurs.common.health.HealthBuildInfo
 import no.liflig.ks2kurs.common.health.HealthService
 import no.liflig.ks2kurs.common.http4k.UserPrincipal
+import no.liflig.ks2kurs.common.http4k.UserPrincipalLog
 import no.liflig.ks2kurs.createApp
 import no.liflig.ks2kurs.services.car.CarService
 import no.liflig.ks2kurs.services.car.domain.CarRepositoryJdbi
@@ -14,6 +15,7 @@ import no.liflig.ks2kurs.services.person.PersonService
 import no.liflig.ks2kurs.services.person.domain.PersonRepositoryJdbi
 import no.liflig.ks2kurs.services.person.domain.PersonSearchRepositoryJdbi
 import no.liflig.ks2kurs.services.person.domain.personSerializationAdapter
+import no.liflig.logging.http4k.LoggingFilter
 import org.http4k.core.RequestContexts
 import org.http4k.lens.RequestContextKey
 import org.http4k.routing.RoutingHttpHandler
@@ -50,7 +52,10 @@ fun createTestApp(): RoutingHttpHandler {
   )
 
   return createApp(
-    logHandler = {},
+    logHandler = LoggingFilter.createLogHandler(
+      printStacktraceToConsole = true,
+      principalLogSerializer = UserPrincipalLog.serializer(),
+    ),
     requestContexts = contexts,
     userPrincipalLens = RequestContextKey.optional<UserPrincipal?>(contexts),
     healthService = HealthService(
