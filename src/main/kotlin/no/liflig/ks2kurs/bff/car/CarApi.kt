@@ -1,4 +1,4 @@
-package no.liflig.ks2kurs.services.car
+package no.liflig.ks2kurs.bff.car
 
 import no.liflig.ks2kurs.bff.car.routes.CreateCarRoute
 import no.liflig.ks2kurs.bff.car.routes.EditCarRoute
