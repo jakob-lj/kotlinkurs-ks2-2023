@@ -1,5 +1,7 @@
 package no.liflig.ks2kurs.services.person
 
+import no.liflig.ks2kurs.common.http4k.errors.PersonError
+import no.liflig.ks2kurs.common.http4k.errors.PersonErrorCode
 import no.liflig.ks2kurs.services.person.domain.Person
 import no.liflig.ks2kurs.services.person.domain.PersonId
 import no.liflig.ks2kurs.services.person.domain.PersonRepository
@@ -12,22 +14,26 @@ class PersonService(
   val personRepository: PersonRepository,
 ) {
   suspend fun create(request: CreateOrEditPersonRequest): Person {
-    // TODO persist
-    return Person.create(
-      id = PersonId(),
-      // TODO split into firstname and lastname (do not make changes in the request api)
-      name = request.name,
-    )
+    return personRepository.create(
+      Person.create(
+        id = PersonId(),
+        firstName = request.name.firstName(),
+        lastName = request.name.lastName(),
+        birthDay = request.birthDay,
+      ),
+    ).item
   }
 
   suspend fun edit(request: CreateOrEditPersonRequest, personId: PersonId): Person {
-    // TODO throw PersonNotFound if not exist
+    val existingPerson = personRepository.get(personId) ?: throw PersonError(PersonErrorCode.PersonNotFound)
 
-    // TODO update in persistence
-    return Person.create(
-      id = personId,
-      name = request.name,
-    )
+    return personRepository.update(
+      existingPerson.item.edit(
+        firstName = request.name.firstName(),
+        request.name.lastName(),
+      ),
+      existingPerson.version,
+    ).item
   }
 
   suspend fun getByFilter(filter: PersonServiceListFilter): List<Person> {
@@ -38,3 +44,10 @@ class PersonService(
     return listOf()
   }
 }
+
+fun String.firstName(): String {
+  val splittedText = this.split(" ")
+  return splittedText.subList(0, splittedText.size - 1).joinToString(" ")
+}
+
+fun String.lastName(): String = this.split(" ").last()

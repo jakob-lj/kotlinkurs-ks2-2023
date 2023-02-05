@@ -18,7 +18,7 @@ data class Person(
   val fullName: String
     get() = "$firstName $lastName"
 
-  private fun edit(
+  fun edit(
     firstName: String = this.firstName,
     lastName: String = this.lastName,
   ): Person = update(

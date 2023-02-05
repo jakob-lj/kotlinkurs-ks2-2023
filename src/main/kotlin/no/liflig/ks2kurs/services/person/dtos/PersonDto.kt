@@ -24,5 +24,5 @@ data class PersonDto(
 
 fun Person.toDto(): PersonDto = PersonDto(
   id = id,
-  name = name,
+  name = fullName,
 )
