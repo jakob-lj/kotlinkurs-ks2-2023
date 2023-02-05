@@ -1,6 +1,8 @@
 package no.liflig.ks2kurs.services.car.domain
 
 import no.liflig.documentstore.entity.AbstractEntityRoot
+import no.liflig.ks2kurs.common.http4k.errors.CarError
+import no.liflig.ks2kurs.common.http4k.errors.CarErrorCode
 import no.liflig.ks2kurs.common.serialization.KotlinXSerializationAdapter
 import no.liflig.ks2kurs.services.person.domain.PersonId
 
@@ -17,21 +19,53 @@ data class Car private constructor(
   val availableSeats: Int
     get() = passengerCapacity - drivers.size - passengers.size
 
-  fun addDriver(personId: PersonId): Car = update(
-    drivers = drivers + listOf(personId),
-  )
+  fun addDriver(personId: PersonId): Car {
+    if (this.drivers.contains(personId)) {
+      throw CarError(CarErrorCode.PersonIsDriver)
+    }
 
-  fun addPassenger(personId: PersonId): Car = update(
-    passengers = passengers + listOf(personId),
-  )
+    if (this.passengers.contains(personId)) {
+      throw CarError(CarErrorCode.PersonIsPassenger)
+    }
 
-  fun removePassenger(personId: PersonId): Car = update(
-    passengers = passengers.filter { it != personId },
-  )
+    return update(
+      drivers = drivers + listOf(personId),
+    )
+  }
 
-  fun removeDriver(personId: PersonId): Car = update(
-    drivers = drivers.filter { it != personId },
-  )
+  fun addPassenger(personId: PersonId): Car {
+    if (this.drivers.contains(personId)) {
+      throw CarError(CarErrorCode.PersonIsDriver)
+    }
+
+    if (this.passengers.contains(personId)) {
+      throw CarError(CarErrorCode.PersonIsPassenger)
+    }
+
+    return update(
+      passengers = passengers + listOf(personId),
+    )
+  }
+
+  fun removeDriver(personId: PersonId): Car {
+    if (!this.drivers.contains(personId)) {
+      throw CarError(CarErrorCode.PersonIsNotDriver)
+    }
+
+    return update(
+      drivers = drivers.filter { it != personId },
+    )
+  }
+
+  fun removePassenger(personId: PersonId): Car {
+    if (!this.passengers.contains(personId)) {
+      throw CarError(CarErrorCode.PersonIsNotPassenger)
+    }
+
+    return update(
+      passengers = passengers.filter { it != personId },
+    )
+  }
 
   fun updateRegNr(regNr: String) = update(
     regNr = regNr,
