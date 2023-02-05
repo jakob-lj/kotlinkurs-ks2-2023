@@ -5,34 +5,49 @@ package no.liflig.ks2kurs.services.person.domain
 import kotlinx.serialization.UseSerializers
 import no.liflig.documentstore.entity.AbstractEntityRoot
 import no.liflig.ks2kurs.common.serialization.LocalDateSerializer
+import java.time.LocalDate
 
 @kotlinx.serialization.Serializable
 data class Person(
   override val id: PersonId,
-  // TODO extract name to firstname, lastname
-  val name: String,
-
-  // TODO add birthday
+  val firstName: String,
+  val lastName: String,
+  val birthDay: LocalDate,
 ) : AbstractEntityRoot<PersonId>() {
 
-  // TODO getter for full name
+  val fullName: String
+    get() = "$firstName $lastName"
 
-  fun edit(name: String = this.name): Person = update(
-    name = name,
+  private fun edit(
+    firstName: String = this.firstName,
+    lastName: String = this.lastName,
+  ): Person = update(
+    firstName = firstName,
+    lastName = lastName,
   )
 
-  private fun update(name: String = this.name): Person = Person(
+  private fun update(
+    firstName: String = this.firstName,
+    lastName: String = this.lastName,
+    birthDay: LocalDate = this.birthDay,
+  ): Person = Person(
     id = id,
-    name = name,
+    firstName = firstName,
+    lastName = lastName,
+    birthDay = birthDay,
   )
 
   companion object {
     fun create(
       id: PersonId = PersonId(),
-      name: String,
+      firstName: String,
+      lastName: String,
+      birthDay: LocalDate,
     ): Person = Person(
       id = id,
-      name = name,
+      firstName = firstName,
+      lastName = lastName,
+      birthDay = birthDay,
     )
   }
 }
