@@ -51,6 +51,15 @@ fun createPerson(
     .with(CreateOrEditPersonRequest.bodyLens of createRequest),
 )
 
+fun editPerson(
+  httpHandler: RoutingHttpHandler,
+  personId: PersonId,
+  createRequest: CreateOrEditPersonRequest,
+) = httpHandler(
+  Request(Method.PUT, "/api/person/$personId")
+    .with(CreateOrEditPersonRequest.bodyLens of createRequest),
+)
+
 fun listPersons(
   httpHandler: RoutingHttpHandler,
 ): PersonsDto {
