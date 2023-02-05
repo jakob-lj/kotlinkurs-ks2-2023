@@ -11,5 +11,7 @@ enum class CarErrorCode : ApiErrorCode {
   CarAlreadyExists,
   InvalidRegistrationNumber,
   NoAvailableSeats,
+  PersonIsPassenger,
+  PersonIsDriver,
   Custom,
 }
