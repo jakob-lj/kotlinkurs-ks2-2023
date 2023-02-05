@@ -30,6 +30,6 @@ class CarRepositoryJdbi(override val crudDao: CrudDao<CarId, Car>, override val 
   }
 
   override suspend fun update(item: Car, previousVersion: Version): VersionedEntity<Car> {
-    TODO("Not yet implemented")
+    return crudDao.update(item, previousVersion)
   }
 }
