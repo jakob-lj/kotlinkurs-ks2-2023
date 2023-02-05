@@ -15,5 +15,6 @@ enum class CarErrorCode : ApiErrorCode {
   PersonIsDriver,
   PersonIsNotDriver,
   PersonIsNotPassenger,
+  PersonDoesNotHaveValidCertificate,
   Custom,
 }
