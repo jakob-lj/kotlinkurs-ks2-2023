@@ -20,6 +20,16 @@ class PersonService(
     )
   }
 
+  suspend fun edit(request: CreateOrEditPersonRequest, personId: PersonId): Person {
+    // TODO throw PersonNotFound if not exist
+
+    // TODO update in persistence
+    return Person.create(
+      id = personId,
+      name = request.name,
+    )
+  }
+
   suspend fun getByFilter(filter: PersonServiceListFilter): List<Person> {
     // TODO get all person!
 
