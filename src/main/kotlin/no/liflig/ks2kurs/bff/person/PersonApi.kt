@@ -1,6 +1,7 @@
 package no.liflig.ks2kurs.bff.person
 
 import no.liflig.ks2kurs.bff.person.routes.CreatePersonRoute
+import no.liflig.ks2kurs.bff.person.routes.DeletePersonRoute
 import no.liflig.ks2kurs.bff.person.routes.EditPersonRoute
 import no.liflig.ks2kurs.bff.person.routes.ListPersonRoute
 import no.liflig.ks2kurs.common.domain.ServiceRegistry
@@ -19,6 +20,7 @@ class PersonApi(
   private val listPersons = ListPersonRoute(serviceRegistry)
   private val createPerson = CreatePersonRoute(serviceRegistry)
   private val editPerson = EditPersonRoute(serviceRegistry)
+  private val deletePerson = DeletePersonRoute(serviceRegistry)
 
   override val routes: List<ContractRoute> = listOf(
     prefix meta createPerson.meta()
@@ -29,5 +31,8 @@ class PersonApi(
 
     prefix / Path.of("personId") meta editPerson.meta()
       bindContract Method.PUT to { personId -> editPerson.handler(personId) },
+
+    prefix / Path.of("personId") meta deletePerson.meta()
+      bindContract Method.DELETE to { personId -> deletePerson.handler(personId) },
   )
 }

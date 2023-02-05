@@ -47,6 +47,7 @@ fun handleApiError(error: ApiError): Response {
     is PersonError -> when (error.code) {
       PersonErrorCode.PersonNotFound,
       PersonErrorCode.InvalidBirthDay,
+      PersonErrorCode.CannotDeletePersonIfCarsHasPerson,
       -> error.code.toResponse(Status.BAD_REQUEST)
     }
 

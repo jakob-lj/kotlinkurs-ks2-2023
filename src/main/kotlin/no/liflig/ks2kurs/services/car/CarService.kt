@@ -4,6 +4,7 @@ import no.liflig.ks2kurs.services.car.domain.Car
 import no.liflig.ks2kurs.services.car.domain.CarId
 import no.liflig.ks2kurs.services.car.domain.CarRepository
 import no.liflig.ks2kurs.services.car.dtos.CreateOrEditCarRequest
+import no.liflig.ks2kurs.services.person.domain.PersonId
 
 class CarService(
   private val carRepository: CarRepository,
@@ -32,5 +33,15 @@ class CarService(
     // TODO update in persistence
 
     return car
+  }
+
+  suspend fun getCarsWithPerson(personId: PersonId): List<Car> {
+    // TODO Implement
+
+    return emptyList()
+  }
+
+  suspend fun removeFromCar(personId: PersonId, carId: CarId) {
+    // TODO Implement
   }
 }
