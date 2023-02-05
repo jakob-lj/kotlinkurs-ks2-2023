@@ -14,6 +14,9 @@ data class Car private constructor(
   val carType: CarType,
 ) : AbstractEntityRoot<CarId>() {
 
+  val availableSeats: Int
+    get() = passengerCapacity - drivers.size - passengers.size
+
   fun addDriver(personId: PersonId): Car = update(
     drivers = drivers + listOf(personId),
   )

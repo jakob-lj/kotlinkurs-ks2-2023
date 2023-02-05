@@ -44,19 +44,25 @@ class CarService(
   }
 
   suspend fun addDriver(person: Person, carId: CarId): Car {
-    // TODO implement method
-    return Car.create(
-      id = carId,
-      regNr = "DR94054",
-    )
+    val car = carRepository.get(carId) ?: throw CarError(CarErrorCode.CarNotFound)
+
+    if (car.item.availableSeats < 1) {
+      throw CarError(CarErrorCode.CarNotFound)
+    }
+
+    return carRepository.update(
+      car.item.addDriver(person.id),
+      car.version,
+    ).item
   }
 
   suspend fun addPassenger(person: Person, carId: CarId): Car {
-    // TODO implement method
-    return Car.create(
-      id = carId,
-      regNr = "DR94054",
-    )
+    val car = carRepository.get(carId) ?: throw CarError(CarErrorCode.CarNotFound)
+
+    return carRepository.update(
+      car.item.addPassenger(person.id),
+      car.version,
+    ).item
   }
 
   suspend fun removePassenger(personId: PersonId, carId: CarId): Car {
