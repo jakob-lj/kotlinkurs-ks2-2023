@@ -36,7 +36,7 @@ implementert dette.
 
 # Oppgaver!
 
-# Step 1: Utvid Car og fiks immutability issuet (Car.kt)
+# Step 1: Utvid Car og fiks immutability issuet (Car.kt & CarDto.kt)
 
 - [ ] Done
 
@@ -49,6 +49,7 @@ Utvide Car-klassen til å ha:
 - [ ] en listen med passasjerer (PersonId)
 - [ ] biltype (CarType)
 - [ ] lag en getter for å finne antall ledige plasser igjen i bilen
+- [ ] utvid CarDto.kt til å ha samme felt som Car
 
 # Step 2 (Car Service):
 
@@ -72,7 +73,7 @@ dependent på Person for å legge til disse funksjonene.
 
 Det skal nå være mulig å kjøre [CarTest](src/test/kotlin/no/liflig/ks2kurs/bff/CarTest.kt).
 
-# Step 3: Utvide Person klassen (Person.kt)
+# Step 3: Utvide Person klassen (Person.kt & PersonDto.kt)
 
 - [ ] Done
 
@@ -81,6 +82,8 @@ Det skal nå være mulig å kjøre [CarTest](src/test/kotlin/no/liflig/ks2kurs/b
   firstName og lastName begge være name frem til du kommer til Step 4 og skal håndtere dette
 - [ ] Lag en getter for full name
 - [ ] Utvide Person til å ha birthDay (LocalDate)
+- [ ] Utvide Person til å ha hasLicense (Boolean)
+- [ ] Utvid PersonDto til å ha samme felt som Person
 
 # Step 4: Implementert en service for Person (PersonService.kt)
 
@@ -111,6 +114,9 @@ man kan bruke til å filtrere.
 
 Merk!! I en "vanlig" applikasjon vil man la basen gjøre mest mulig av denne filtreringen, vi unngår dette her så dere
 skal få jobbe med kotlin.
+
+Testen [PersonTest.kt](src/test/kotlin/no/liflig/ks2kurs/bff/PersonTest.kt) skal nå være grønn.
+Etter dette steget har vi også fikset kompileringsproblemene til mvn, og github skal bli grønn.
 
 # Step 5: Vi utvider Car aggregatet til å kunne legge til sjåfører (Car.kt)
 
