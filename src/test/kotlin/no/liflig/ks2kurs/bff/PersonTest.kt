@@ -48,6 +48,7 @@ class PersonTest {
 
     Assertions.assertEquals(1, updatedListOfPersons.items.size)
     Assertions.assertEquals("Even Franksen", persons.items[0].name)
+    Assertions.assertEquals(false, persons.items[0].hasLicense)
     Assertions.assertEquals(LocalDate.parse("1970-02-01"), persons.items[0].birthDay)
   }
 }
