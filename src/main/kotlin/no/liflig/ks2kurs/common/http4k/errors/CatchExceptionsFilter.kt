@@ -44,6 +44,12 @@ fun handleApiError(error: ApiError): Response {
       AuthApiErrorCode.FORBIDDEN -> error.code.toResponse(Status.FORBIDDEN)
     }
 
+    is PersonError -> when (error.code) {
+      PersonErrorCode.PersonNotFound,
+      PersonErrorCode.InvalidBirthDay,
+      -> error.code.toResponse(Status.BAD_REQUEST)
+    }
+
     is CarError -> when (error.code) {
       CarErrorCode.CarNotFound,
       CarErrorCode.CarAlreadyExists,
