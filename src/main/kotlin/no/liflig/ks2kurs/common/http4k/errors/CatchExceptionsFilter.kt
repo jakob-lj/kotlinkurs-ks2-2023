@@ -70,6 +70,7 @@ fun handleApiError(error: ApiError): Response {
       CarErrorCode.PersonIsNotDriver,
       CarErrorCode.PersonIsNotPassenger,
       CarErrorCode.PersonDoesNotHaveValidCertificate,
+      CarErrorCode.CarCapacityTooLowRemoveDriversAndPassengers,
       -> error.code.toResponse(Status.BAD_REQUEST)
 
       CarErrorCode.Custom -> Response(Status.BAD_REQUEST).with(
