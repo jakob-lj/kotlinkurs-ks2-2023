@@ -23,10 +23,12 @@ data class Person(
     firstName: String = this.firstName,
     lastName: String = this.lastName,
     hasLicense: Boolean = this.hasLicense,
+    birthDay: LocalDate = this.birthDay,
   ): Person = update(
     firstName = firstName,
     lastName = lastName,
     hasLicense = hasLicense,
+    birthDay = birthDay,
   )
 
   private fun update(

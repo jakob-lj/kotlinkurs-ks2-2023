@@ -31,7 +31,9 @@ class PersonService(
     return personRepository.update(
       existingPerson.item.edit(
         firstName = request.name.firstName(),
-        request.name.lastName(),
+        lastName = request.name.lastName(),
+        birthDay = request.birthDay,
+        hasLicense = request.hasLicense,
       ),
       existingPerson.version,
     ).item
