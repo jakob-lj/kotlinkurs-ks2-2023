@@ -89,6 +89,8 @@ class CarService(
   }
 
   suspend fun removeFromCar(personId: PersonId, carId: CarId) {
-    // TODO Implement
+    val car = carRepository.get(carId) ?: throw CarError(CarErrorCode.CarNotFound)
+
+    carRepository.update(car.item.removePassenger(personId).removeDriver(personId), car.version)
   }
 }

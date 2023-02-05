@@ -14,6 +14,22 @@ data class Car private constructor(
   val carType: CarType,
 ) : AbstractEntityRoot<CarId>() {
 
+  fun addDriver(personId: PersonId): Car = update(
+    drivers = drivers + listOf(personId),
+  )
+
+  fun addPassenger(personId: PersonId): Car = update(
+    passengers = passengers + listOf(personId),
+  )
+
+  fun removePassenger(personId: PersonId): Car = update(
+    passengers = passengers.filter { it != personId },
+  )
+
+  fun removeDriver(personId: PersonId): Car = update(
+    drivers = drivers.filter { it != personId },
+  )
+
   fun updateRegNr(regNr: String) = update(
     regNr = regNr,
   )
