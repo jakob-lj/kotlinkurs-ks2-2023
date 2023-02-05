@@ -5,7 +5,6 @@ import no.liflig.documentstore.entity.EntityId
 import no.liflig.documentstore.entity.EntityRoot
 import no.liflig.documentstore.entity.Version
 import no.liflig.documentstore.entity.VersionedEntity
-import no.liflig.ks2kurs.services.car.domain.Car
 
 interface Repository<IT : EntityId, T : EntityRoot<IT>, Q> {
 
@@ -19,5 +18,5 @@ interface Repository<IT : EntityId, T : EntityRoot<IT>, Q> {
 
   suspend fun update(item: T, previousVersion: Version): VersionedEntity<T>
 
-  suspend fun delete(item: Car, previousVersion: Version)
+  suspend fun delete(item: T, previousVersion: Version)
 }

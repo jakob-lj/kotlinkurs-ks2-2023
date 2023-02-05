@@ -18,6 +18,10 @@ import no.liflig.ks2kurs.services.car.CarService
 import no.liflig.ks2kurs.services.car.domain.CarRepositoryJdbi
 import no.liflig.ks2kurs.services.car.domain.CarSearchRepositoryJdbi
 import no.liflig.ks2kurs.services.car.domain.carSerializerAdapter
+import no.liflig.ks2kurs.services.person.PersonService
+import no.liflig.ks2kurs.services.person.domain.PersonRepositoryJdbi
+import no.liflig.ks2kurs.services.person.domain.PersonSearchRepositoryJdbi
+import no.liflig.ks2kurs.services.person.domain.personSerializationAdapter
 import no.liflig.logging.RequestResponseLog
 import no.liflig.logging.http4k.LoggingFilter
 import org.http4k.core.RequestContexts
@@ -63,9 +67,20 @@ fun main(args: Array<String>) {
     carRepository = carRepository,
   )
 
+  val personRepository = PersonRepositoryJdbi(
+    crudDao = CrudDaoJdbi(jdbi, PersonRepositoryJdbi.SQL_TABLE_NAME, personSerializationAdapter),
+    searchRepo = PersonSearchRepositoryJdbi(jdbi),
+  )
+
+  val personService = PersonService(
+    personRepository = personRepository,
+  )
+
   val serviceRegistry = ServiceRegistry(
     carRepository = carRepository,
     carService = carService,
+    personRepository = personRepository,
+    personService = personService,
   )
 
   createApp(

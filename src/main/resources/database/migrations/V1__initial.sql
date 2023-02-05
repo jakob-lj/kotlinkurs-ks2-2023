@@ -18,4 +18,13 @@ CREATE TABLE "cars"
   data        jsonb       NOT NULL
 );
 
+CREATE TABLE "persons"
+(
+  id          uuid        NOT NULL PRIMARY KEY,
+  created_at  timestamptz NOT NULL,
+  modified_at timestamptz NOT NULL,
+  version     bigint      NOT NULL,
+  data        jsonb       NOT NULL
+);
+
 -- CREATE INDEX ix_car_regnr_lookup ON "cars" (lower(data->>'regNr'));

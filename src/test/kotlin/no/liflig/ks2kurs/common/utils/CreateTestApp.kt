@@ -10,6 +10,10 @@ import no.liflig.ks2kurs.services.car.CarService
 import no.liflig.ks2kurs.services.car.domain.CarRepositoryJdbi
 import no.liflig.ks2kurs.services.car.domain.CarSearchRepositoryJdbi
 import no.liflig.ks2kurs.services.car.domain.carSerializerAdapter
+import no.liflig.ks2kurs.services.person.PersonService
+import no.liflig.ks2kurs.services.person.domain.PersonRepositoryJdbi
+import no.liflig.ks2kurs.services.person.domain.PersonSearchRepositoryJdbi
+import no.liflig.ks2kurs.services.person.domain.personSerializationAdapter
 import org.http4k.core.RequestContexts
 import org.http4k.lens.RequestContextKey
 import org.http4k.routing.RoutingHttpHandler
@@ -29,9 +33,20 @@ fun createTestApp(): RoutingHttpHandler {
     carRepository = carRepository,
   )
 
+  val personRepository = PersonRepositoryJdbi(
+    crudDao = CrudDaoJdbi(jdbi, PersonRepositoryJdbi.SQL_TABLE_NAME, personSerializationAdapter),
+    searchRepo = PersonSearchRepositoryJdbi(jdbi),
+  )
+
+  val personService = PersonService(
+    personRepository = personRepository,
+  )
+
   val serviceRegistry = ServiceRegistry(
     carRepository = carRepository,
     carService = carService,
+    personRepository = personRepository,
+    personService = personService,
   )
 
   return createApp(
