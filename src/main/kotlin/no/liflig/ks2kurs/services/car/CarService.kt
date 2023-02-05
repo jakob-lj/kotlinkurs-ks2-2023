@@ -47,7 +47,7 @@ class CarService(
     val car = carRepository.get(carId) ?: throw CarError(CarErrorCode.CarNotFound)
 
     if (car.item.availableSeats < 1) {
-      throw CarError(CarErrorCode.CarNotFound)
+      throw CarError(CarErrorCode.NoAvailableSeats)
     }
 
     return carRepository.update(
