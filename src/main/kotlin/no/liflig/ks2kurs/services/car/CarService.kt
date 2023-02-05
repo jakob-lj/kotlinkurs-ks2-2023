@@ -51,6 +51,29 @@ class CarService(
     )
   }
 
+  suspend fun removePassenger(personId: PersonId, carId: CarId): Car {
+    // we already know that person exists
+    // TODO Check that car exists
+
+    // TODO implement
+    return Car.create(
+      id = CarId(),
+      regNr = "",
+    )
+  }
+
+  suspend fun removeDriver(personId: PersonId, carId: CarId): Car {
+    // we already know person exists
+    // TODO check that car exists
+
+    // TODO implement
+
+    return Car.create(
+      id = CarId(),
+      regNr = "",
+    )
+  }
+
   suspend fun getCarsWithPerson(personId: PersonId): List<Car> {
     // TODO Implement
 
