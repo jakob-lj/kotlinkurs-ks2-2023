@@ -46,6 +46,10 @@ class CarService(
   suspend fun addDriver(person: Person, carId: CarId): Car {
     val car = carRepository.get(carId) ?: throw CarError(CarErrorCode.CarNotFound)
 
+    if (!person.hasLicense) {
+      throw CarError(CarErrorCode.PersonDoesNotHaveValidCertificate)
+    }
+
     if (car.item.availableSeats < 1) {
       throw CarError(CarErrorCode.NoAvailableSeats)
     }
