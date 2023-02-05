@@ -35,6 +35,12 @@ class CarService(
   }
 
   suspend fun edit(request: CreateOrEditCarRequest, carId: CarId): Car {
+    val existingCars = carRepository.getAll().filter { it.item.regNr == request.regNr }
+
+    if (existingCars.size > 1 || existingCars.size == 1 && existingCars[0].item.id != carId) {
+      throw CarError(CarErrorCode.CarAlreadyExists)
+    }
+
     val car = carRepository.get(carId) ?: throw CarError(CarErrorCode.CarNotFound)
 
     val updatedWithCorrectRegNr = car.item.updateRegNr(request.regNr)
