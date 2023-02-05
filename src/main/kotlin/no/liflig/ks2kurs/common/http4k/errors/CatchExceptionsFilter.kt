@@ -17,6 +17,15 @@ class ApiFailureResponse(val code: String) {
   }
 }
 
+@kotlinx.serialization.Serializable
+class CustomApiFailureResponse(val feature: String, val customMessage: String) {
+  val type = "CUSTOM"
+
+  companion object {
+    val bodyLens by lazy { createBodyLens(serializer()) }
+  }
+}
+
 object CatchExceptionsFilter : KLogging() {
   operator fun invoke() = Filter { next ->
     { req ->
@@ -55,7 +64,16 @@ fun handleApiError(error: ApiError): Response {
       CarErrorCode.CarNotFound,
       CarErrorCode.CarAlreadyExists,
       CarErrorCode.InvalidRegistrationNumber,
+      CarErrorCode.NoAvailableSeats,
       -> error.code.toResponse(Status.BAD_REQUEST)
+
+      CarErrorCode.Custom -> Response(Status.BAD_REQUEST).with(
+        CustomApiFailureResponse.bodyLens of
+          CustomApiFailureResponse(
+            feature = "car",
+            customMessage = error.customMessage ?: "Custom message not implemented",
+          ),
+      )
     }
 
     else -> throw IllegalStateException("Could not convert ApiError Response.")
