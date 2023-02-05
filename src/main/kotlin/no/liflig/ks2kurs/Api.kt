@@ -6,9 +6,10 @@ import com.fasterxml.jackson.databind.MapperFeature
 import com.fasterxml.jackson.databind.json.JsonMapper
 import com.fasterxml.jackson.module.kotlin.KotlinFeature
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import no.liflig.ks2kurs.bff.car.CarApi
+import no.liflig.ks2kurs.bff.person.PersonApi
 import no.liflig.ks2kurs.common.config.Config
 import no.liflig.ks2kurs.common.domain.ServiceRegistry
-import no.liflig.ks2kurs.bff.car.CarApi
 import no.liflig.logging.http4k.ErrorResponseRendererWithLogging
 import org.http4k.contract.ContractRoute
 import org.http4k.contract.contract
@@ -49,6 +50,7 @@ fun api(
     descriptionPath = "/api-docs"
 
     routes += CarApi(prefix = "car", serviceRegistry).routes
+    routes += PersonApi(prefix = "person", serviceRegistry).routes
   }
 }
 
