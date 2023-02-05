@@ -26,6 +26,10 @@ class CarService(
     return carRepository.create(
       Car.create(
         regNr = request.regNr,
+        passengerCapacity = request.passengerCapacity,
+        drivers = emptyList(),
+        passengers = emptyList(),
+        carType = request.carType,
       ),
     ).item
   }
@@ -79,9 +83,9 @@ class CarService(
   }
 
   suspend fun getCarsWithPerson(personId: PersonId): List<Car> {
-    // TODO Implement
-
-    return emptyList()
+    return getAllCars().filter {
+      it.drivers.contains(personId) || it.passengers.contains(personId)
+    }
   }
 
   suspend fun removeFromCar(personId: PersonId, carId: CarId) {
