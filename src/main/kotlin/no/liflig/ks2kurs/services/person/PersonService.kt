@@ -22,28 +22,26 @@ class PersonService(
         birthDay = request.birthDay,
         hasLicense = request.hasLicense,
       ),
-    ).item
+    )
   }
 
   suspend fun edit(request: CreateOrEditPersonRequest, personId: PersonId): Person {
     val existingPerson = personRepository.get(personId) ?: throw PersonError(PersonErrorCode.PersonNotFound)
 
     return personRepository.update(
-      existingPerson.item.edit(
+      existingPerson.edit(
         firstName = request.name.firstName(),
         lastName = request.name.lastName(),
         birthDay = request.birthDay,
         hasLicense = request.hasLicense,
       ),
-      existingPerson.version,
-    ).item
+    )
   }
 
   suspend fun getByFilter(filter: PersonServiceListFilter): List<Person> {
     val allPersons = personRepository.getAll()
 
     return allPersons
-      .map { it.item }
       .filter {
         (filter.hasLicense == null || it.hasLicense) &&
           (filter.birthYear == null || it.birthDay.year == filter.birthYear.value)
