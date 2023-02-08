@@ -7,6 +7,7 @@ import no.liflig.ks2kurs.common.http4k.errors.CatchExceptionsFilter
 import org.http4k.core.Filter
 import org.http4k.core.RequestContexts
 import org.http4k.core.then
+import org.http4k.events.then
 import org.http4k.filter.CorsPolicy
 import org.http4k.filter.ServerFilters
 import org.http4k.lens.RequestContextKey
@@ -35,6 +36,13 @@ class ServiceRouter(
   val coreFilters =
     ServerFilters
       .InitialiseRequestContext(contexts)
+      .then(
+        LoggingFilter.invoke(
+          LoggingFilter.createLogHandler(
+            printStacktraceToConsole = true,
+          ),
+        ),
+      )
       .let {
         if (corsPolicy != null) it.then(ServerFilters.Cors(corsPolicy))
         else it
