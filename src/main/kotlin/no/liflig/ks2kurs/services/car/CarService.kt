@@ -11,7 +11,7 @@ class CarService(
   private val carRepository: CarRepository,
 ) {
   suspend fun getAllCars(): List<Car> {
-    return carRepository.getAll().map { it.item }
+    return carRepository.getAll()
   }
 
   suspend fun create(request: CreateOrEditCarRequest): Car {
@@ -25,7 +25,7 @@ class CarService(
   }
 
   suspend fun edit(request: CreateOrEditCarRequest, carId: CarId): Car {
-    val car = carRepository.get(carId)!!.item // TODO throw CarNotFound if not exists
+    val car = carRepository.get(carId)!! // TODO throw CarNotFound if not exists
 
     // TODO use update pattern to update existing car
 

@@ -1,6 +1,5 @@
 package no.liflig.ks2kurs.common.utils
 
-import no.liflig.ks2kurs.common.db.DatabaseConfigurator
 import org.jdbi.v3.core.Jdbi
 import org.testcontainers.containers.PostgreSQLContainer
 

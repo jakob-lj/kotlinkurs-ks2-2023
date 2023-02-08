@@ -1,19 +1,28 @@
 package no.liflig.ks2kurs.common.config
 
 import no.liflig.ks2kurs.common.health.getHealthBuildInfo
-import no.liflig.properties.intRequired
-import no.liflig.properties.loadProperties
+import org.http4k.core.Method
 
 object Config {
 
-  val properties = loadProperties()
+  // val properties = loadProperties()
 
   // Change these
   val applicationName = "liflig-rest-baseline"
 
-  val corsPolicy = CorsConfig.from(properties)
-  val serverPort = properties.intRequired("server.port")
-  val buildInfo = properties.getHealthBuildInfo()
-
-  val database = DbConfig.create(properties)
+  val corsPolicy = CorsConfig(
+    allowedHeaders = listOf("*"),
+    allowedMethods = listOf(
+      Method.GET,
+      Method.POST,
+      Method.DELETE,
+      Method.OPTIONS,
+      Method.PUT,
+      Method.PATCH,
+      Method.HEAD,
+    ),
+    allowedOrigins = listOf("http://localhost:3000"),
+  )
+  val serverPort = 8080
+  val buildInfo = getHealthBuildInfo()
 }

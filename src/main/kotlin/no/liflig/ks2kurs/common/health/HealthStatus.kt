@@ -39,7 +39,4 @@ data class HealthBuildInfo(
    * During local development this will be null.
    */
   val timestamp: Instant?,
-  val commit: String,
-  val branch: String,
-  val number: Int,
 )

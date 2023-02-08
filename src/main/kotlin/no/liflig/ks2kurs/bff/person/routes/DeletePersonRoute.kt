@@ -31,7 +31,7 @@ class DeletePersonRoute(override val sr: ServiceRegistry) : Route {
         throw PersonError(PersonErrorCode.CannotDeletePersonIfCarsHasPerson)
       }
 
-      sr.personRepository.delete(person.item, person.version)
+      sr.personRepository.delete(person)
     }
 
     Response(Status.OK)

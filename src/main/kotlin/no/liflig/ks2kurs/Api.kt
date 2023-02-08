@@ -10,7 +10,6 @@ import no.liflig.ks2kurs.bff.car.CarApi
 import no.liflig.ks2kurs.bff.person.PersonApi
 import no.liflig.ks2kurs.common.config.Config
 import no.liflig.ks2kurs.common.domain.ServiceRegistry
-import no.liflig.logging.http4k.ErrorResponseRendererWithLogging
 import org.http4k.contract.ContractRoute
 import org.http4k.contract.contract
 import org.http4k.contract.openapi.ApiInfo
@@ -28,7 +27,6 @@ import org.http4k.routing.RoutingHttpHandler
 import org.http4k.routing.bind
 
 fun api(
-  errorResponseRenderer: ErrorResponseRendererWithLogging,
   serviceRegistry: ServiceRegistry,
 ): RoutingHttpHandler {
   return "api" bind contract {
@@ -44,7 +42,6 @@ fun api(
         jacksonJson,
         schema = AutoJsonToJsonSchema(jacksonJson),
       ).cached(),
-      errorResponseRenderer = errorResponseRenderer,
       servers = listOf(ApiServer(Uri.of("http://localhost:${Config.serverPort}"))),
     )
     descriptionPath = "/api-docs"

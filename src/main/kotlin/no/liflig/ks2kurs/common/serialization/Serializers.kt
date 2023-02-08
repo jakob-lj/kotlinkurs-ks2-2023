@@ -6,7 +6,7 @@ import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
-import no.liflig.documentstore.entity.EntityId
+import no.liflig.ks2kurs.common.db.EntityId
 import java.math.BigDecimal
 import java.time.Instant
 import java.time.LocalDate

@@ -1,12 +1,10 @@
 package no.liflig.ks2kurs.common.config
 
-import no.liflig.properties.stringNotEmpty
 import org.http4k.core.Method
 import org.http4k.filter.AllowAll
 import org.http4k.filter.AnyOf
 import org.http4k.filter.CorsPolicy
 import org.http4k.filter.OriginPolicy
-import java.util.Properties
 
 data class CorsConfig(
   val allowedOrigins: List<String>,
@@ -20,13 +18,4 @@ data class CorsConfig(
       allowedHeaders,
       allowedMethods,
     )
-
-  companion object {
-    fun from(properties: Properties): CorsConfig {
-      val allowedOrigins = properties.stringNotEmpty("cors.allow.origin").split(",")
-      val allowedHeaders = properties.stringNotEmpty("cors.allow.headers").split(",")
-      val allowedMethods = properties.stringNotEmpty("cors.allow.methods").split(",").map(Method::valueOf)
-      return CorsConfig(allowedOrigins, allowedHeaders, allowedMethods)
-    }
-  }
 }

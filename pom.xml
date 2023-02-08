@@ -5,12 +5,6 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>no.liflig</groupId>
-    <artifactId>kotlin-parent</artifactId>
-    <version>1.20230106.095248</version>
-  </parent>
-
   <groupId>no.liflig</groupId>
   <artifactId>ks2kurs</artifactId>
   <version>0.0.1-SNAPSHOT</version>
@@ -30,11 +24,11 @@
     <arrow.version>1.1.5</arrow.version>
     <awssdk.version>2.17.102</awssdk.version>
     <kotlinx.serialization.version>1.4.0-RC</kotlinx.serialization.version>
+    <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
+    <maven-shade-plugin.version>3.4.1</maven-shade-plugin.version>
 
     <ktlint-maven-plugin.version>1.14.0</ktlint-maven-plugin.version>
 
-    <liflig.properties.version>2.20230113.171328</liflig.properties.version>
-    <liflig-document-store.version>1.20230113.210106</liflig-document-store.version>
 
     <hikariCP.version>5.0.1</hikariCP.version>
     <flyway-core.version>8.5.13</flyway-core.version>
@@ -42,7 +36,6 @@
     <jdbi3-core.version>3.36.0</jdbi3-core.version>
 
     <!-- Logging -->
-    <liflig-logging-http4k.version>1.20230124.021515</liflig-logging-http4k.version>
     <slf4j-api.version>2.0.6</slf4j-api.version>
     <kotlinx-coroutines-slf4j.version>1.6.4</kotlinx-coroutines-slf4j.version>
     <kotlin-logging-jvm.version>3.0.4</kotlin-logging-jvm.version>
@@ -77,13 +70,6 @@
     </profile>
   </profiles>
 
-  <repositories>
-    <repository>
-      <id>github</id>
-      <url>https://maven.pkg.github.com/capralifecycle/*</url>
-    </repository>
-  </repositories>
-
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -104,21 +90,6 @@
   </dependencyManagement>
 
   <dependencies>
-    <dependency>
-      <groupId>no.liflig</groupId>
-      <artifactId>properties</artifactId>
-      <version>${liflig.properties.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>no.liflig</groupId>
-      <artifactId>liflig-document-store</artifactId>
-      <version>${liflig-document-store.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>no.liflig</groupId>
-      <artifactId>liflig-logging-http4k</artifactId>
-      <version>${liflig-logging-http4k.version}</version>
-    </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
@@ -143,6 +114,10 @@
     <dependency>
       <groupId>org.http4k</groupId>
       <artifactId>http4k-format-jackson</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.http4k</groupId>
+      <artifactId>http4k-contract</artifactId>
     </dependency>
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
@@ -230,12 +205,6 @@
 
 
     <!--test scope-->
-    <dependency>
-      <groupId>no.liflig</groupId>
-      <artifactId>snapshot-test</artifactId>
-      <version>1.20230113.145707</version>
-      <scope>test</scope>
-    </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>

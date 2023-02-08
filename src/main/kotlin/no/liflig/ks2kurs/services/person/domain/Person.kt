@@ -3,7 +3,7 @@
 package no.liflig.ks2kurs.services.person.domain
 
 import kotlinx.serialization.UseSerializers
-import no.liflig.documentstore.entity.AbstractEntityRoot
+import no.liflig.ks2kurs.common.db.Entity
 import no.liflig.ks2kurs.common.serialization.LocalDateSerializer
 
 @kotlinx.serialization.Serializable
@@ -13,7 +13,7 @@ data class Person(
   val name: String,
 
   // TODO add birthday
-) : AbstractEntityRoot<PersonId>() {
+) : Entity<PersonId> {
 
   // TODO getter for full name
 

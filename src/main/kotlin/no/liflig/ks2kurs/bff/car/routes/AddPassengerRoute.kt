@@ -34,7 +34,7 @@ class AddPassengerRoute(override val sr: ServiceRegistry) : Route {
 
       val person = sr.personRepository.get(request.personId) ?: throw PersonError(PersonErrorCode.PersonNotFound)
 
-      val updatedCar = sr.carService.addPassenger(person.item, car.item.id)
+      val updatedCar = sr.carService.addPassenger(person, car.id)
 
       Response(Status.OK).with(CarDto.bodyLens of updatedCar.toDto())
     }
