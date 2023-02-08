@@ -14,7 +14,7 @@ data class Person(
   val lastName: String,
   val birthDay: LocalDate,
   val hasLicense: Boolean,
-) : Entity<PersonId>() {
+) : Entity<PersonId> {
 
   val fullName: String
     get() = "$firstName $lastName"
