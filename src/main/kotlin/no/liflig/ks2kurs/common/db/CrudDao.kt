@@ -10,14 +10,16 @@ interface Entity<ID : EntityId> {
   val id: ID
 }
 
-class CrudDao<I : Entity<ID>, ID: EntityId> {
+class CrudDao<I : Entity<ID>, ID : EntityId> {
 
   private val items: MutableList<I> = mutableListOf()
-  fun create(item: I) {
+  fun create(item: I): I {
     if (items.firstOrNull { it.id == item.id } != null) {
       throw DaoException.ItemAlreadyExists
     }
     items.add(item)
+    
+    return item
   }
 
   fun get(itemId: ID): I? {
