@@ -34,6 +34,9 @@ kjøre [CreateCarAndDriverTest](src/test/kotlin/no/liflig/ks2kurs/bff/CreateCarA
 Er du helt blank? Sjekk ut branchen [solution](/jakob-lj/koltinkurs-ks2-2023/tree/solution) for å se hvordan vi har
 implementert dette.
 
+# First!
+- [ ] La oss begynne med Kotlin Koans
+
 # Oppgaver!
 
 # Step 1: Utvid Car og fiks immutability issuet (Car.kt & CarDto.kt)
