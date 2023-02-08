@@ -5,7 +5,6 @@ import no.liflig.ks2kurs.common.health.HealthService
 import no.liflig.ks2kurs.common.health.health
 import no.liflig.ks2kurs.common.http4k.errors.CatchExceptionsFilter
 import org.http4k.core.Filter
-import org.http4k.core.Request
 import org.http4k.core.RequestContexts
 import org.http4k.core.then
 import org.http4k.filter.CorsPolicy

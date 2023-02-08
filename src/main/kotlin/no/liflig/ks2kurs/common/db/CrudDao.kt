@@ -18,7 +18,7 @@ class CrudDao<I : Entity<ID>, ID : EntityId> {
       throw DaoException.ItemAlreadyExists
     }
     items.add(item)
-    
+
     return item
   }
 
