@@ -10,15 +10,15 @@ import java.time.LocalDate
 @kotlinx.serialization.Serializable
 data class CreateOrEditPersonRequest(
   val name: String,
-  val hasLicense: Boolean,
   val birthDay: LocalDate,
+  val hasLicense: Boolean,
 ) {
   companion object {
     val bodyLens by lazy { createBodyLens(serializer()) }
     val example = CreateOrEditPersonRequest(
       name = "Ola Normann",
-      hasLicense = false,
-      birthDay = LocalDate.parse("2020-02-02"),
+      birthDay = LocalDate.parse("2000-01-01"),
+      hasLicense = true,
     )
   }
 }

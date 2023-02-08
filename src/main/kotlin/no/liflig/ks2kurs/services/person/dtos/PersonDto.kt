@@ -13,15 +13,15 @@ import java.time.LocalDate
 data class PersonDto(
   val id: PersonId,
   val name: String,
-  val hasLicense: Boolean,
   val birthDay: LocalDate,
+  val hasLicense: Boolean,
 ) {
   companion object {
     val bodyLens by lazy { createBodyLens(serializer()) }
     val example = PersonDto(
       id = PersonId("5831c867-75ab-4b36-9bb1-dfd34b4e58c5"),
       name = "Some name",
-      birthDay = LocalDate.parse("2020-01-01"),
+      birthDay = LocalDate.parse("1970-02-01"),
       hasLicense = true,
     )
   }
@@ -29,7 +29,7 @@ data class PersonDto(
 
 fun Person.toDto(): PersonDto = PersonDto(
   id = id,
-  name = name,
-  birthDay = LocalDate.now(), // TODO Set value
-  hasLicense = true, // TODO set value
+  name = fullName,
+  birthDay = birthDay,
+  hasLicense = hasLicense,
 )
