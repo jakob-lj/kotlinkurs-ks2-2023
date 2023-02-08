@@ -30,6 +30,6 @@ fun Car.toDto(): CarDto = CarDto(
   id = id,
   regNr = regNr,
   passengers = emptyList(),
-  passengerCapacity = 1,
-  carType = CarType.Person,
+  passengerCapacity = 1, // TODO Set values
+  carType = CarType.Person, // TODO Set values
 )
